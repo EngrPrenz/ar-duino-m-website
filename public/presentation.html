@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AR-DUINO | Research Congress Product Presentation</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-dark: #0a101d;
+      --bg-surface: #162133;
+      --bg-card: #1c2b3f;
+      --text-main: #ffffff;
+      --text-muted: #8a9bb5;
+      --brand-blue: #35a2f4;
+      --brand-green: #49f996;
+      --brand-purple: #9b5ff5;
+      --brand-orange: #fc904f;
+      --slide-duration: 5500ms;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      background-image: radial-gradient(circle at 50% 50%, #162133 0%, #0a101d 100%);
+    }
+
+    /* Cyber grid overlay */
+    .cyber-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      z-index: 1;
+    }
+
+    /* Ambient glow orbs */
+    .glow-orb-1 {
+      position: absolute;
+      top: 20%;
+      left: 20%;
+      width: 750px;
+      height: 750px;
+      border-radius: 50%;
+      filter: blur(180px);
+      pointer-events: none;
+      opacity: 0.25;
+      transition: background-color 1s ease;
+      z-index: 1;
+    }
+
+    .glow-orb-2 {
+      position: absolute;
+      bottom: 20%;
+      right: 20%;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      filter: blur(170px);
+      pointer-events: none;
+      opacity: 0.2;
+      transition: background-color 1s ease;
+      z-index: 1;
+    }
+
+    /* Main Presentation Viewport: Clean Full-Screen Stage (NO TOP BAR) */
+    main {
+      position: relative;
+      z-index: 10;
+      flex: 1;
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 16px 28px 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .slide-content {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0;
+      transform: scale(0.96);
+      transition: opacity 0.45s ease-out, transform 0.45s ease-out;
+    }
+
+    .slide-content.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Slide 1: Logo Only + Clean White Tagline */
+    .logo-hero-wrap {
+      position: relative;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-hero-glow {
+      position: absolute;
+      inset: -20px;
+      border-radius: 40px;
+      background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple), var(--brand-green));
+      filter: blur(35px);
+      opacity: 0.7;
+      animation: pulseDot 3s infinite alternate;
+    }
+
+    .logo-hero-img {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border-radius: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 40px rgba(53, 162, 244, 0.8));
+    }
+
+    .title-giant {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 5.5rem;
+      line-height: 1;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .tagline-white-big {
+      font-size: 1.6rem;
+      color: #ffffff;
+      line-height: 1.45;
+      max-width: 880px;
+      margin: 0 auto 24px;
+      font-weight: 700;
+    }
+
+    /* Common Centered Heading on Slides 2, 3, 4, 5 */
+    .slide-heading {
+      margin-bottom: 20px;
+      max-width: 960px;
+    }
+
+    .slide-heading h1 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 3.4rem;
+      line-height: 1.12;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .slide-heading p {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      line-height: 1.3;
+    }
+
+    /* Badges row */
+    .badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .badge-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(28, 43, 63, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+      backdrop-filter: blur(8px);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand-green);
+    }
+
+    /* 2 Large Side-by-Side Mockups Grid */
+    .mockup-grid-2-large {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      width: 100%;
+      max-width: 1460px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .mockup-item-large {
+      aspect-ratio: 1.95 / 1;
+      border-radius: 34px;
+      padding: 12px;
+      background: linear-gradient(180deg, #334761 0%, #1c2a3d 50%, #0e1724 100%);
+      border: 3px solid rgba(53, 162, 244, 0.35);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(53, 162, 244, 0.2);
+      backdrop-filter: blur(18px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .mockup-item-large:hover {
+      transform: scale(1.02);
+      border-color: rgba(53, 162, 244, 0.7);
+    }
+
+    .mockup-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #0a101d;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+    }
+
+    .mockup-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mockup-tag {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      z-index: 10;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Slide 5 Centered QR Card */
+    .qr-card-box {
+      position: relative;
+      margin: 14px auto;
+    }
+
+    .qr-card-glow {
+      position: absolute;
+      inset: -14px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));
+      filter: blur(28px);
+      opacity: 0.6;
+    }
+
+    .qr-card-body {
+      position: relative;
+      padding: 22px 28px;
+      border-radius: 30px;
+      background: #162133;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .android-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 999px;
+      background: rgba(73, 249, 150, 0.15);
+      border: 1px solid rgba(73, 249, 150, 0.4);
+      color: var(--brand-green);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .qr-img-wrap {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .qr-emblem {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #162133;
+      border: 2px solid var(--brand-blue);
+      padding: 5px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .url-tag {
+      margin-top: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      padding: 5px 16px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--brand-blue);
+      font-weight: 700;
+    }
+
+    .steps-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .step-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(28, 43, 63, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .step-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(53, 162, 244, 0.25);
+      color: var(--brand-blue);
+      font-weight: 800;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ALL-IN-ONE BOTTOM NAVBAR: Contains Progress Bar, Brand, Navigation, Controls, Counter & Kiosk Tools */
+    #bottomNavbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(14, 23, 36, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+      box-shadow: 0 -15px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    #bottomNavbar.fullscreen-hidden {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .progress-track-bottom {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .progress-bar-bottom {
+      height: 100%;
+      width: 0%;
+      background: var(--brand-blue);
+      box-shadow: 0 0 10px var(--brand-blue);
+      transition: width 50ms linear, background 0.4s ease;
+    }
+
+    .navbar-content {
+      width: 100%;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-pill-mini {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-right: 12px;
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .brand-pill-mini img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 5px rgba(53, 162, 244, 0.6));
+    }
+
+    .brand-pill-mini span {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+
+    .nav-bullets {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bullet-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.72rem;
+      background: rgba(28, 43, 63, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .bullet-btn.active {
+      background: rgba(53, 162, 244, 0.2);
+      border-color: var(--brand-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(53, 162, 244, 0.25);
+    }
+
+    .bullet-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    .bullet-btn.active .bullet-dot {
+      background: var(--brand-blue);
+    }
+
+    .controls-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hud-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: #1c2b3f;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .play-pause-btn {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--brand-blue), var(--brand-green));
+      border: none;
+      color: #0a101d;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(53, 162, 244, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .kiosk-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .counter-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(28, 43, 63, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #ffffff;
+    }
+
+    .counter-tag .current {
+      color: var(--brand-blue);
+      font-weight: 700;
+    }
+
+    .action-btn {
+      padding: 5px 12px;
+      border-radius: 10px;
+      background: #1c2b3f;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.72rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    @media (max-width: 900px) {
+      .mockup-grid-2-large { grid-template-columns: 1fr; }
+      .title-giant { font-size: 3.5rem; }
+      .slide-heading h1 { font-size: 2.2rem; }
+      .nav-bullets .bullet-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ambient background elements -->
+  <div class="cyber-grid"></div>
+  <div class="glow-orb-1" id="glowOrb1" style="background-color: var(--brand-blue);"></div>
+  <div class="glow-orb-2" id="glowOrb2" style="background-color: var(--brand-green);"></div>
+
+  <!-- NO TOP BAR -->
+
+  <!-- Main Viewport containing the 5 Slides -->
+  <main>
+    <!-- SLIDE 1: LOGO ONLY WITH CLEAN WHITE TAGLINE -->
+    <div class="slide-content active" id="slide-1" data-accent="#35A2F4" data-secondary="#49F996">
+      <div class="logo-hero-wrap">
+        <div class="logo-hero-glow"></div>
+        <img src="./Logo Main.png" alt="AR-DUINO Main Logo" class="logo-hero-img" />
+      </div>
+
+      <h1 class="title-giant">AR-DUINO</h1>
+
+      <p class="tagline-white-big">
+        Augmented Reality Driven User Interface for Navigation and Operation of Microcontrollers
+      </p>
+    </div>
+
+    <!-- SLIDE 2: CHOOSE YOUR PROJECT (Centered Text + 2 LARGE NON-OVERLAPPING Mockups) -->
+    <div class="slide-content" id="slide-2" data-accent="#9B5FF5" data-secondary="#35A2F4">
+      <div class="slide-heading">
+        <h1>Choose Your Project</h1>
+        <p style="color: #9B5FF5;">Graduated difficulty curriculum with step-by-step guides and hardware checklists</p>
+      </div>
+
+      <div class="mockup-grid-2-large">
+        <div class="mockup-item-large" style="border-color: rgba(53, 162, 244, 0.4);">
+          <div class="mockup-inner">
+            <img src="./screenshots/project-details.png" alt="Hardware Checklist" />
+            <div class="mockup-tag" style="color: #35A2F4;">1. Hardware Checklist</div>
+          </div>
+        </div>
+        <div class="mockup-item-large" style="border-color: rgba(73, 249, 150, 0.4);">
+          <div class="mockup-inner">
+            <img src="./screenshots/step-instructions.png" alt="Wiring Guide" />
+            <div class="mockup-tag" style="color: #49F996;">2. Guided Wiring Steps</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: INTERACTIVE PROTOTYPING GAMIFIED (2 LARGE NON-OVERLAPPING Mockups) -->
+    <div class="slide-content" id="slide-3" data-accent="#49F996" data-secondary="#35A2F4">
+      <div class="slide-heading">
+        <h1>Interactive Prototyping & Hardware Learning Gamified</h1>
+        <p style="color: #49F996;">Digital twin electronics with real-time logic simulation and zero burnout risk</p>
+      </div>
+
+      <div class="mockup-grid-2-large">
+        <div class="mockup-item-large" style="border-color: rgba(73, 249, 150, 0.4);">
+          <div class="mockup-inner">
+            <img src="./screenshots/ar-workspace-led.png" alt="3D Breadboard Workspace" />
+            <div class="mockup-tag" style="color: #49F996;">● 3D Digital Twin Breadboard</div>
+          </div>
+        </div>
+        <div class="mockup-item-large" style="border-color: rgba(252, 144, 79, 0.4);">
+          <div class="mockup-inner">
+            <img src="./screenshots/ar-workspace-rccar.png" alt="RC Car Motor Driver Robotics" />
+            <div class="mockup-tag" style="color: #FC904F;">L298N Robotics Mode</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: AR RECOGNITION (2 LARGE NON-OVERLAPPING Mockups) -->
+    <div class="slide-content" id="slide-4" data-accent="#FC904F" data-secondary="#9B5FF5">
+      <div class="slide-heading">
+        <h1>AR Recognition: Point Camera Then Spawn</h1>
+        <p style="color: #FC904F;">Scan target card to instantly materialize interactive 3D microcontrollers and live pinouts</p>
+      </div>
+
+      <div class="mockup-grid-2-large">
+        <div class="mockup-item-large">
+          <div class="mockup-inner">
+            <img src="./screenshots/ar-library-qr.png" alt="Target Card Library" />
+            <div class="mockup-tag" style="color: #FC904F;">1. Target Card Input</div>
+          </div>
+        </div>
+        <div class="mockup-item-large" style="border-color: rgba(252, 144, 79, 0.4);">
+          <div class="mockup-inner">
+            <img src="./screenshots/ar-camera-view.png" alt="Live AR Camera Spawning Board" />
+            <div class="mockup-tag" style="color: #49F996;">● 2. 3D Model Spawned</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SCAN QR CODE TO DOWNLOAD AR-DUINO APK -->
+    <div class="slide-content" id="slide-5" data-accent="#35A2F4" data-secondary="#49F996">
+      <div class="slide-heading">
+        <h1>Scan QR Code to Download AR-DUINO APK</h1>
+        <p style="color: #35A2F4;">Exclusive for Android Devices • Install & Test Directly at the Booth</p>
+      </div>
+
+      <div class="qr-card-box">
+        <div class="qr-card-glow"></div>
+        <div class="qr-card-body">
+          <div class="android-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.1 12 8.1s-3.5902.3116-5.1367.8497L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
+            <span>Android Exclusive (APK)</span>
+          </div>
+
+          <div class="qr-img-wrap">
+            <img src="./ar-duino-qr.png" alt="Scan to download AR-DUINO APK" />
+            <div class="qr-emblem">
+              <img src="./Logo Main.png" alt="AR-DUINO" style="width: 100%; height: 100%; object-fit: contain;" />
+            </div>
+          </div>
+
+          <div class="url-tag">
+            <span>URL: ar-duino-website.vercel.app</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="steps-container">
+        <div class="step-badge">
+          <span class="step-circle">1</span>
+          <span>Open Phone Camera</span>
+        </div>
+        <span style="color: rgba(255,255,255,0.3); font-weight: bold;">→</span>
+        <div class="step-badge">
+          <span class="step-circle">2</span>
+          <span>Scan QR Code</span>
+        </div>
+        <span style="color: rgba(255,255,255,0.3); font-weight: bold;">→</span>
+        <div class="step-badge">
+          <span class="step-circle">3</span>
+          <span>Download & Install APK</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ALL-IN-ONE BOTTOM NAVBAR: Fixed to Bottom, Auto-Hides in Fullscreen and Slides Up on Hover -->
+  <footer id="bottomNavbar">
+    <div class="progress-track-bottom">
+      <div class="progress-bar-bottom" id="progressBar"></div>
+    </div>
+
+    <div class="navbar-content">
+      <div class="nav-left">
+        <div class="brand-pill-mini">
+          <img src="./Logo Main.png" alt="AR-DUINO" />
+          <span>AR-DUINO</span>
+        </div>
+
+        <div class="nav-bullets">
+          <button class="bullet-btn active" onclick="goToSlide(0)">
+            <span class="bullet-dot" style="background: #35A2F4;"></span>
+            <span class="bullet-label">Intro</span>
+          </button>
+          <button class="bullet-btn" onclick="goToSlide(1)">
+            <span class="bullet-dot" style="background: #9B5FF5;"></span>
+            <span class="bullet-label">Projects</span>
+          </button>
+          <button class="bullet-btn" onclick="goToSlide(2)">
+            <span class="bullet-dot" style="background: #49F996;"></span>
+            <span class="bullet-label">Workspace</span>
+          </button>
+          <button class="bullet-btn" onclick="goToSlide(3)">
+            <span class="bullet-dot" style="background: #FC904F;"></span>
+            <span class="bullet-label">AR Spawn</span>
+          </button>
+          <button class="bullet-btn" onclick="goToSlide(4)">
+            <span class="bullet-dot" style="background: #35A2F4;"></span>
+            <span class="bullet-label">Download</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="controls-center">
+        <button class="hud-btn" onclick="prevSlide()" title="Previous (Left Arrow)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+
+        <button class="play-pause-btn" id="playPauseBtn" onclick="togglePlayPause()" title="Play / Pause (Space)">
+          <svg id="playPauseIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          <span id="playPauseText">Pause</span>
+        </button>
+
+        <button class="hud-btn" onclick="nextSlide()" title="Next (Right Arrow)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <div class="kiosk-actions">
+        <div class="counter-tag">
+          <span class="current" id="counterCurrent">1</span> / <span>5</span>
+        </div>
+
+        <button class="action-btn" onclick="goToSlide(0)" title="Restart presentation">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          <span>Restart</span>
+        </button>
+
+        <button class="action-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen (F)">
+          <svg id="fullscreenIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          <span id="fullscreenText">Fullscreen</span>
+        </button>
+
+        <a href="./" class="action-btn" style="text-decoration: none;" title="Return to main website">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span>Website</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const SLIDE_DURATION = 5500;
+    const slides = [
+      document.getElementById('slide-1'),
+      document.getElementById('slide-2'),
+      document.getElementById('slide-3'),
+      document.getElementById('slide-4'),
+      document.getElementById('slide-5')
+    ];
+    const bulletBtns = document.querySelectorAll('.bullet-btn');
+    const progressBar = document.getElementById('progressBar');
+    const counterCurrent = document.getElementById('counterCurrent');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playPauseIcon = document.getElementById('playPauseIcon');
+    const playPauseText = document.getElementById('playPauseText');
+    const glowOrb1 = document.getElementById('glowOrb1');
+    const glowOrb2 = document.getElementById('glowOrb2');
+    const bottomNavbar = document.getElementById('bottomNavbar');
+
+    let currentSlide = 0;
+    let isPlaying = true;
+    let progress = 0;
+    let progressInterval = null;
+    let isFullscreen = false;
+    let hoverTimeout = null;
+
+    function updateSlide(index) {
+      slides[currentSlide].classList.remove('active');
+      bulletBtns[currentSlide].classList.remove('active');
+
+      currentSlide = (index + slides.length) % slides.length;
+
+      slides[currentSlide].classList.add('active');
+      bulletBtns[currentSlide].classList.add('active');
+      counterCurrent.textContent = currentSlide + 1;
+
+      const accent = slides[currentSlide].getAttribute('data-accent') || '#35A2F4';
+      const secondary = slides[currentSlide].getAttribute('data-secondary') || '#49F996';
+
+      progressBar.style.backgroundColor = accent;
+      progressBar.style.boxShadow = `0 0 10px ${accent}`;
+      glowOrb1.style.backgroundColor = accent;
+      glowOrb2.style.backgroundColor = secondary;
+
+      progress = 0;
+      progressBar.style.width = '0%';
+      startTime = performance.now();
+    }
+
+    // Clean sequential 1 -> 2 -> 3 -> 4 -> 5 -> 1
+    function nextSlide() {
+      updateSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      updateSlide(currentSlide - 1);
+    }
+
+    function goToSlide(idx) {
+      updateSlide(idx);
+    }
+
+    let startTime = performance.now();
+    let frameId = null;
+
+    function resetAutoplayTimer() {
+      startTime = performance.now();
+      progress = 0;
+      progressBar.style.width = '0%';
+    }
+
+    function runAutoplay(now) {
+      if (isPlaying) {
+        const elapsed = now - startTime;
+        const pct = Math.min((elapsed / SLIDE_DURATION) * 100, 100);
+        progressBar.style.width = pct + '%';
+
+        if (elapsed >= SLIDE_DURATION) {
+          resetAutoplayTimer();
+          nextSlide();
+        }
+      } else {
+        startTime = performance.now();
+      }
+      frameId = requestAnimationFrame(runAutoplay);
+    }
+
+    frameId = requestAnimationFrame(runAutoplay);
+
+    function togglePlayPause() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        resetAutoplayTimer();
+        playPauseText.textContent = 'Pause';
+        playPauseIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+      } else {
+        playPauseText.textContent = 'Play';
+        playPauseIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
+      }
+    }
+
+    // Fullscreen toggle & Auto-hide Navbar
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      isFullscreen = !!document.fullscreenElement;
+      document.getElementById('fullscreenText').textContent = isFullscreen ? 'Exit Full' : 'Fullscreen';
+      if (isFullscreen) {
+        bottomNavbar.classList.add('fullscreen-hidden');
+      } else {
+        bottomNavbar.classList.remove('fullscreen-hidden');
+      }
+    });
+
+    // Hover detection for sliding up navbar in fullscreen (bottom 90px)
+    window.addEventListener('mousemove', (e) => {
+      if (!isFullscreen) return;
+      if (e.clientY >= window.innerHeight - 90) {
+        if (hoverTimeout) clearTimeout(hoverTimeout);
+        bottomNavbar.classList.remove('fullscreen-hidden');
+      } else {
+        if (hoverTimeout) clearTimeout(hoverTimeout);
+        hoverTimeout = setTimeout(() => {
+          if (isFullscreen) {
+            bottomNavbar.classList.add('fullscreen-hidden');
+          }
+        }, 500);
+      }
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      }
+    });
+
+    // Initial setup
+    updateSlide(0);
+  </script>
+</body>
+</html>
