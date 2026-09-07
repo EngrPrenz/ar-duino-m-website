@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { 
   ArrowUp, 
   EnvelopeSimple, 
@@ -17,8 +18,13 @@ import {
 import { Button } from "@/components/ui/button";
 
 export function Footer() {
+  const pathname = usePathname();
   const [copied, setCopied] = React.useState(false);
   const email = "markyisulat@gmail.com";
+
+  if (pathname === "/presentation") {
+    return null;
+  }
 
   const handleCopy = () => {
     navigator.clipboard.writeText(email);
@@ -83,6 +89,12 @@ export function Footer() {
               <li>
                 <Link href="/tutorials" className="hover:text-brand-blue transition-colors">
                   Video Tutorials & Projects
+                </Link>
+              </li>
+              <li>
+                <Link href="/presentation" className="hover:text-brand-blue transition-colors flex items-center gap-1.5 text-brand-green/90 font-medium">
+                  <span>Kiosk Presentation Mode</span>
+                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-brand-green/15 text-brand-green font-bold">Live</span>
                 </Link>
               </li>
               <li>

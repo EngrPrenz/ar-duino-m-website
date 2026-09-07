@@ -44,10 +44,15 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  if (pathname === "/presentation") {
+    return null;
+  }
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Vuforia Library", href: "/components" },
     { name: "Video Tutorials", href: "/tutorials" },
+    { name: "Presentation", href: "/presentation" },
     { name: "How It Works", href: "/#how-it-works" },
     { name: "Contact", href: "/#contact" },
   ];

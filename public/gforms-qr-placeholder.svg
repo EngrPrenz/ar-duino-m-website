@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f3f4f8"/>
+    </linearGradient>
+    <!-- Purple Brand Gradient -->
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7248B9"/>
+      <stop offset="100%" stop-color="#9B5FF5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="500" height="500" rx="28" fill="url(#bgGrad)"/>
+
+  <!-- Outer Corner Positioning Markers -->
+  <!-- Top Left -->
+  <rect x="35" y="35" width="105" height="105" rx="16" fill="#162133"/>
+  <rect x="50" y="50" width="75" height="75" rx="10" fill="#ffffff"/>
+  <rect x="65" y="65" width="45" height="45" rx="6" fill="url(#purpleGrad)"/>
+
+  <!-- Top Right -->
+  <rect x="360" y="35" width="105" height="105" rx="16" fill="#162133"/>
+  <rect x="375" y="50" width="75" height="75" rx="10" fill="#ffffff"/>
+  <rect x="390" y="65" width="45" height="45" rx="6" fill="url(#purpleGrad)"/>
+
+  <!-- Bottom Left -->
+  <rect x="35" y="360" width="105" height="105" rx="16" fill="#162133"/>
+  <rect x="50" y="375" width="75" height="75" rx="10" fill="#ffffff"/>
+  <rect x="65" y="390" width="45" height="45" rx="6" fill="url(#purpleGrad)"/>
+
+  <!-- Alignment Marker Bottom Right -->
+  <rect x="360" y="360" width="65" height="65" rx="10" fill="#162133"/>
+  <rect x="373" y="373" width="39" height="39" rx="6" fill="#ffffff"/>
+  <rect x="383" y="383" width="19" height="19" rx="3" fill="#162133"/>
+
+  <!-- QR Pattern Grid Blocks (High density aesthetic QR simulation) -->
+  <g fill="#162133">
+    <!-- Timing Lines -->
+    <rect x="160" y="80" width="16" height="16" rx="3"/>
+    <rect x="195" y="80" width="16" height="16" rx="3"/>
+    <rect x="230" y="80" width="16" height="16" rx="3"/>
+    <rect x="265" y="80" width="16" height="16" rx="3"/>
+    <rect x="300" y="80" width="16" height="16" rx="3"/>
+    <rect x="330" y="80" width="16" height="16" rx="3"/>
+
+    <rect x="80" y="160" width="16" height="16" rx="3"/>
+    <rect x="80" y="195" width="16" height="16" rx="3"/>
+    <rect x="80" y="230" width="16" height="16" rx="3"/>
+    <rect x="80" y="265" width="16" height="16" rx="3"/>
+    <rect x="80" y="300" width="16" height="16" rx="3"/>
+    <rect x="80" y="330" width="16" height="16" rx="3"/>
+
+    <!-- Data Blocks Quadrant 1 -->
+    <rect x="160" y="35" width="18" height="32" rx="4"/>
+    <rect x="195" y="35" width="32" height="18" rx="4"/>
+    <rect x="245" y="35" width="32" height="32" rx="5"/>
+    <rect x="295" y="35" width="18" height="32" rx="4"/>
+    <rect x="330" y="45" width="18" height="18" rx="4"/>
+
+    <rect x="160" y="115" width="32" height="18" rx="4"/>
+    <rect x="210" y="115" width="18" height="32" rx="4"/>
+    <rect x="245" y="115" width="32" height="18" rx="4"/>
+    <rect x="295" y="115" width="18" height="18" rx="4"/>
+    <rect x="330" y="115" width="32" height="32" rx="5"/>
+
+    <!-- Data Blocks Quadrant 2 -->
+    <rect x="35" y="160" width="32" height="18" rx="4"/>
+    <rect x="35" y="200" width="18" height="32" rx="4"/>
+    <rect x="35" y="250" width="32" height="18" rx="4"/>
+    <rect x="35" y="290" width="18" height="32" rx="4"/>
+
+    <rect x="115" y="160" width="32" height="32" rx="5"/>
+    <rect x="115" y="210" width="18" height="18" rx="4"/>
+    <rect x="115" y="245" width="32" height="18" rx="4"/>
+    <rect x="115" y="280" width="18" height="32" rx="4"/>
+    <rect x="115" y="330" width="32" height="18" rx="4"/>
+
+    <!-- Data Blocks Center & Surroundings -->
+    <rect x="160" y="160" width="18" height="18" rx="4"/>
+    <rect x="195" y="160" width="32" height="18" rx="4"/>
+    <rect x="245" y="160" width="18" height="32" rx="4"/>
+    <rect x="280" y="160" width="32" height="18" rx="4"/>
+    <rect x="330" y="160" width="18" height="32" rx="4"/>
+    <rect x="365" y="160" width="32" height="18" rx="4"/>
+    <rect x="415" y="160" width="18" height="32" rx="4"/>
+    <rect x="450" y="160" width="18" height="18" rx="4"/>
+
+    <rect x="160" y="195" width="32" height="32" rx="5"/>
+    <rect x="330" y="210" width="32" height="18" rx="4"/>
+    <rect x="380" y="195" width="18" height="32" rx="4"/>
+    <rect x="415" y="210" width="32" height="18" rx="4"/>
+    <rect x="460" y="195" width="18" height="32" rx="4"/>
+
+    <rect x="160" y="245" width="18" height="32" rx="4"/>
+    <rect x="330" y="245" width="18" height="32" rx="4"/>
+    <rect x="365" y="245" width="32" height="18" rx="4"/>
+    <rect x="415" y="245" width="18" height="32" rx="4"/>
+    <rect x="450" y="245" width="32" height="18" rx="4"/>
+
+    <rect x="160" y="295" width="32" height="18" rx="4"/>
+    <rect x="210" y="295" width="18" height="32" rx="4"/>
+    <rect x="245" y="295" width="32" height="18" rx="4"/>
+    <rect x="295" y="295" width="18" height="18" rx="4"/>
+    <rect x="330" y="295" width="32" height="32" rx="5"/>
+    <rect x="380" y="295" width="18" height="32" rx="4"/>
+    <rect x="415" y="295" width="32" height="18" rx="4"/>
+    <rect x="460" y="295" width="18" height="32" rx="4"/>
+
+    <!-- Bottom Data Blocks -->
+    <rect x="160" y="345" width="18" height="32" rx="4"/>
+    <rect x="195" y="345" width="32" height="18" rx="4"/>
+    <rect x="245" y="345" width="18" height="18" rx="4"/>
+    <rect x="280" y="345" width="32" height="32" rx="5"/>
+    <rect x="330" y="345" width="18" height="32" rx="4"/>
+    <rect x="440" y="345" width="32" height="18" rx="4"/>
+
+    <rect x="160" y="395" width="32" height="18" rx="4"/>
+    <rect x="210" y="395" width="18" height="32" rx="4"/>
+    <rect x="245" y="380" width="32" height="32" rx="5"/>
+    <rect x="295" y="395" width="18" height="32" rx="4"/>
+    <rect x="330" y="395" width="18" height="18" rx="4"/>
+    <rect x="440" y="380" width="18" height="32" rx="4"/>
+
+    <rect x="160" y="440" width="32" height="25" rx="4"/>
+    <rect x="210" y="440" width="18" height="25" rx="4"/>
+    <rect x="245" y="430" width="32" height="35" rx="5"/>
+    <rect x="295" y="440" width="32" height="25" rx="4"/>
+    <rect x="345" y="440" width="32" height="25" rx="4"/>
+    <rect x="395" y="440" width="25" height="25" rx="4"/>
+    <rect x="440" y="430" width="32" height="35" rx="5"/>
+  </g>
+
+  <!-- Center Google Forms / Survey Emblem Badge -->
+  <g transform="translate(190, 190)">
+    <!-- Glow Backdrop -->
+    <rect x="-8" y="-8" width="136" height="136" rx="24" fill="#ffffff" filter="drop-shadow(0 4px 12px rgba(114, 72, 185, 0.45))"/>
+    <rect x="0" y="0" width="120" height="120" rx="20" fill="url(#purpleGrad)"/>
+
+    <!-- Google Forms Clipboard Icon -->
+    <g transform="translate(30, 24) scale(0.6)">
+      <!-- Board -->
+      <rect x="10" y="18" width="80" height="96" rx="10" fill="#ffffff"/>
+      <!-- Clip Top -->
+      <rect x="30" y="10" width="40" height="14" rx="4" fill="#5A349C"/>
+      <rect x="38" y="6" width="24" height="8" rx="3" fill="#D9C7F5"/>
+      <!-- Form Lines & Checkboxes -->
+      <circle cx="28" cy="42" r="5" fill="#7248B9"/>
+      <rect x="40" y="39" width="40" height="6" rx="3" fill="#8B60D4"/>
+
+      <circle cx="28" cy="62" r="5" fill="#7248B9"/>
+      <rect x="40" y="59" width="34" height="6" rx="3" fill="#8B60D4"/>
+
+      <circle cx="28" cy="82" r="5" fill="#7248B9"/>
+      <rect x="40" y="79" width="38" height="6" rx="3" fill="#8B60D4"/>
+
+      <circle cx="28" cy="102" r="5" fill="#49F996"/>
+      <path d="M25 102 l 2 2 l 4 -4" stroke="#ffffff" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <rect x="40" y="99" width="42" height="6" rx="3" fill="#8B60D4"/>
+    </g>
+  </g>
+</svg>

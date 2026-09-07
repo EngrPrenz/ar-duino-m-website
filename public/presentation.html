@@ -283,10 +283,28 @@
       font-weight: 600;
     }
 
-    /* Slide 5 Centered QR Card */
+    /* Slide 5 Dual QR Cards Grid */
+    .qr-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 860px;
+      width: 100%;
+      margin: 10px auto 14px;
+    }
+
+    @media (max-width: 800px) {
+      .qr-card-grid {
+        grid-template-columns: 1fr;
+        max-width: 380px;
+        gap: 20px;
+      }
+    }
+
     .qr-card-box {
       position: relative;
-      margin: 14px auto;
+      margin: 0 auto;
+      width: 100%;
     }
 
     .qr-card-glow {
@@ -696,30 +714,50 @@
       </div>
     </div>
 
-    <!-- SLIDE 5: SCAN QR CODE TO DOWNLOAD AR-DUINO APK -->
+    <!-- SLIDE 5: DUAL QR CODES FOR WEBSITE & GOOGLE FORMS -->
     <div class="slide-content" id="slide-5" data-accent="#35A2F4" data-secondary="#49F996">
       <div class="slide-heading">
-        <h1>Scan QR Code to Download AR-DUINO APK</h1>
-        <p style="color: #35A2F4;">Exclusive for Android Devices • Install & Test Directly at the Booth</p>
+        <h1>Scan QR Codes for Website & Feedback</h1>
+        <p style="color: #35A2F4;">Explore the live online platform • Submit congress evaluation directly from your phone</p>
       </div>
 
-      <div class="qr-card-box">
-        <div class="qr-card-glow"></div>
-        <div class="qr-card-body">
-          <div class="android-pill">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.1 12 8.1s-3.5902.3116-5.1367.8497L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
-            <span>Android Exclusive (APK)</span>
-          </div>
+      <div class="qr-card-grid">
+        <!-- CARD 1: WEBSITE -->
+        <div class="qr-card-box">
+          <div class="qr-card-glow" style="background: linear-gradient(135deg, var(--brand-blue), var(--brand-green));"></div>
+          <div class="qr-card-body">
+            <div class="android-pill" style="border-color: rgba(53, 162, 244, 0.4); color: var(--brand-blue); background: rgba(53, 162, 244, 0.15);">
+              <span>Official Website</span>
+            </div>
 
-          <div class="qr-img-wrap">
-            <img src="./ar-duino-qr.png" alt="Scan to download AR-DUINO APK" />
-            <div class="qr-emblem">
-              <img src="./Logo Main.png" alt="AR-DUINO" style="width: 100%; height: 100%; object-fit: contain;" />
+            <div class="qr-img-wrap">
+              <img src="./ar-duino-qr.png" alt="Scan to visit AR-DUINO Website" />
+              <div class="qr-emblem">
+                <img src="./Logo Main.png" alt="AR-DUINO" style="width: 100%; height: 100%; object-fit: contain;" />
+              </div>
+            </div>
+
+            <div class="url-tag">
+              <span>ar-duino-website.vercel.app</span>
             </div>
           </div>
+        </div>
 
-          <div class="url-tag">
-            <span>URL: ar-duino-website.vercel.app</span>
+        <!-- CARD 2: GOOGLE FORMS -->
+        <div class="qr-card-box">
+          <div class="qr-card-glow" style="background: linear-gradient(135deg, var(--brand-purple), var(--brand-blue));"></div>
+          <div class="qr-card-body">
+            <div class="android-pill" style="border-color: rgba(155, 95, 245, 0.4); color: var(--brand-purple); background: rgba(155, 95, 245, 0.15);">
+              <span>Congress Evaluation</span>
+            </div>
+
+            <div class="qr-img-wrap">
+              <img src="./gforms-qr-placeholder.svg" alt="Scan Google Forms Survey" />
+            </div>
+
+            <div class="url-tag" style="color: var(--brand-purple);">
+              <span>forms.gle/ar-duino-feedback</span>
+            </div>
           </div>
         </div>
       </div>
@@ -732,12 +770,12 @@
         <span style="color: rgba(255,255,255,0.3); font-weight: bold;">→</span>
         <div class="step-badge">
           <span class="step-circle">2</span>
-          <span>Scan QR Code</span>
+          <span>Point at Target QR Code</span>
         </div>
         <span style="color: rgba(255,255,255,0.3); font-weight: bold;">→</span>
         <div class="step-badge">
           <span class="step-circle">3</span>
-          <span>Download & Install APK</span>
+          <span>Access Website or Submit Form</span>
         </div>
       </div>
     </div>
@@ -775,7 +813,7 @@
           </button>
           <button class="bullet-btn" onclick="goToSlide(4)">
             <span class="bullet-dot" style="background: #35A2F4;"></span>
-            <span class="bullet-label">Download</span>
+            <span class="bullet-label">QR Scan</span>
           </button>
         </div>
       </div>
