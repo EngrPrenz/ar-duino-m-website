@@ -117,7 +117,7 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/#download" className="hover:text-brand-orange transition-colors flex items-center gap-1.5">
+                <Link href="/download" className="hover:text-brand-orange transition-colors flex items-center gap-1.5">
                   <DownloadSimple weight="bold" className="w-4 h-4 text-brand-orange" />
                   Download Android APK
                 </Link>

@@ -13,17 +13,17 @@ import {
   Info
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
+import { APK_CONFIG } from "@/lib/download-config";
+import Link from "next/link";
 
 export function DownloadCTA() {
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const handleDownload = () => {
     setDownloadStarted(true);
-    // In production, user will replace with actual hosted APK file link
-    // For now we trigger download of /AR-DUINO.apk or notify user
     const link = document.createElement("a");
-    link.href = "/AR-DUINO.apk";
-    link.download = "AR-DUINO-M.apk";
+    link.href = APK_CONFIG.downloadUrl;
+    link.download = APK_CONFIG.fileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -97,9 +97,18 @@ export function DownloadCTA() {
                   )}
                 </Button>
 
-                <div className="flex items-center gap-2 text-xs text-slate-400 font-medium px-2">
-                  <Info weight="bold" className="w-4 h-4 text-brand-blue flex-shrink-0" />
-                  <span>Size: ~65 MB • Requires Camera Permission for Vuforia</span>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-xs text-slate-400 font-medium px-2">
+                  <div className="flex items-center gap-2">
+                    <Info weight="bold" className="w-4 h-4 text-brand-blue flex-shrink-0" />
+                    <span>Size: {APK_CONFIG.fileSizeDisplay} • Requires Camera Permission for Vuforia</span>
+                  </div>
+                  <span className="hidden sm:inline text-white/20">•</span>
+                  <Link
+                    href="/download"
+                    className="text-brand-blue hover:text-brand-blue/80 underline underline-offset-2 transition-colors font-semibold"
+                  >
+                    View Installation Guide & Auto-Download Page →
+                  </Link>
                 </div>
               </div>
 
@@ -143,7 +152,7 @@ export function DownloadCTA() {
                   </div>
 
                   {/* QR Image Box */}
-                  <div className="relative w-52 h-52 mx-auto rounded-2xl bg-white p-3 shadow-inner flex items-center justify-center">
+                  <Link href="/download" className="block relative w-52 h-52 mx-auto rounded-2xl bg-white p-3 shadow-inner group/qr hover:ring-4 hover:ring-brand-blue/40 transition-all">
                     <Image
                       src="/ar-duino-qr.png"
                       alt="AR-DUINO-M Download QR Code"
@@ -152,14 +161,14 @@ export function DownloadCTA() {
                       className="object-contain p-2"
                       priority
                     />
-                  </div>
+                  </Link>
 
                   <p className="text-xs text-slate-300 font-light leading-relaxed">
-                    Open your smartphone camera and point at this QR code to download the APK directly onto your phone.
+                    Point your smartphone camera at this QR code to open the download page and grab the APK directly.
                   </p>
 
                   <div className="text-[10px] font-mono text-slate-400 bg-surface-navy/90 py-1.5 px-3 rounded-lg border border-white/5 truncate">
-                    AR-DUINO-M.apk • v1.0.0
+                    {APK_CONFIG.fileName} • v{APK_CONFIG.version} ({APK_CONFIG.fileSizeDisplay})
                   </div>
                 </div>
               </div>

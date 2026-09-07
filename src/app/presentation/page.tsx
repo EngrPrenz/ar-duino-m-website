@@ -27,8 +27,8 @@ import { cn } from "@/lib/utils";
 export const PRESENTATION_CONFIG = {
   autoplayDurationMs: 5500, // 5.5s per slide
   urls: {
-    website: "https://ar-duino-website.vercel.app",
-    websiteDisplay: "ar-duino-website.vercel.app",
+    website: "https://ar-duino-m.vercel.app/",
+    websiteDisplay: "ar-duino-m.vercel.app",
     // Replace with your real Google Form URL when ready:
     googleForms: "https://forms.gle/ar-duino-feedback",
     googleFormsDisplay: "forms.gle/ar-duino-feedback",

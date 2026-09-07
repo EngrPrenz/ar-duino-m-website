@@ -133,7 +133,7 @@ export function Navbar() {
               size="sm"
               className="rounded-xl shadow-md font-bold text-xs"
             >
-              <Link href="/#download" className="flex items-center gap-2">
+              <Link href="/download" className="flex items-center gap-2">
                 <DownloadSimple weight="bold" className="w-4 h-4" />
                 <span>Download APK</span>
               </Link>
@@ -205,7 +205,7 @@ export function Navbar() {
                 className="w-full justify-center rounded-xl py-3 font-bold"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Link href="/#download" className="flex items-center justify-center gap-2">
+                <Link href="/download" className="flex items-center justify-center gap-2">
                   <DownloadSimple weight="bold" className="w-5 h-5" />
                   <span>Download AR-DUINO-M APK</span>
                 </Link>
