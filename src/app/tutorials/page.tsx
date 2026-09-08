@@ -22,7 +22,8 @@ import {
   CaretRight,
   ShieldCheck,
   Lightning,
-  YoutubeLogo
+  YoutubeLogo,
+  ArrowSquareOut
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -198,14 +199,14 @@ function TutorialsContent() {
                       alt={project.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-85 group-hover:opacity-100"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-105 opacity-95 group-hover:opacity-100"
                     />
 
-                    {/* Gradient darkening overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-surface-card via-surface-card/30 to-transparent" />
+                    {/* Subtle gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface-card/60 via-transparent to-black/20 pointer-events-none" />
 
-                    {/* Difficulty and Duration Badges */}
-                    <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
+                    {/* Difficulty, Duration and Video Badges */}
+                    <div className="absolute top-4 left-4 flex items-center gap-2 z-10 flex-wrap">
                       <Badge
                         variant={
                           isEasy ? "easy" : isMed ? "medium" : "hard"
@@ -218,6 +219,12 @@ function TutorialsContent() {
                         <Clock weight="bold" className="w-3.5 h-3.5 text-brand-blue" />
                         {project.duration}
                       </span>
+                      {project.youtubeId && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-600/90 text-white backdrop-blur-md border border-red-500/30 shadow-md">
+                          <YoutubeLogo weight="fill" className="w-3.5 h-3.5 text-white" />
+                          Video Tutorial
+                        </span>
+                      )}
                     </div>
 
                     {/* Play Button Overlay */}
@@ -377,44 +384,102 @@ function TutorialsContent() {
                   </TabsTrigger>
                 </TabsList>
 
-                {/* TAB 1: Video Tutorial ("Coming Soon" cinematic player) */}
+                {/* TAB 1: Video Tutorial */}
                 <TabsContent value="video" className="space-y-4 pt-4">
-                  <div className="relative w-full aspect-video rounded-2xl bg-black border border-brand-blue/30 overflow-hidden flex flex-col items-center justify-center p-8 text-center shadow-2xl">
-                    {/* Background screenshot watermark */}
-                    <div className="absolute inset-0 opacity-20 pointer-events-none">
-                      <Image
-                        src={activeModalProject.thumbnail}
-                        alt="Video Preview"
-                        fill
-                        className="object-cover blur-sm"
-                      />
-                    </div>
-
-                    <div className="relative z-10 max-w-md space-y-4">
-                      <div className="w-16 h-16 rounded-2xl bg-red-600/20 border border-red-500/40 flex items-center justify-center mx-auto text-red-500 shadow-xl shadow-red-500/20">
-                        <YoutubeLogo weight="fill" className="w-10 h-10" />
+                  {activeModalProject.youtubeId ? (
+                    <div className="space-y-4">
+                      {/* Responsive YouTube Player */}
+                      <div className="relative w-full aspect-video rounded-2xl bg-black border border-brand-blue/30 overflow-hidden shadow-2xl shadow-brand-blue/10">
+                        {activeModalTab === "video" && (
+                          <iframe
+                            src={`https://www.youtube-nocookie.com/embed/${activeModalProject.youtubeId}?autoplay=1&rel=0`}
+                            title={activeModalProject.title}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                            className="w-full h-full border-0"
+                          />
+                        )}
                       </div>
 
-                      <div className="space-y-1">
-                        <h4 className="font-heading font-black text-xl text-white">
-                          YouTube Video Tutorial Coming Soon
-                        </h4>
-                        <p className="text-xs text-slate-300 font-light leading-relaxed">
-                          Official narrated demonstration and oscilloscope testing for <strong className="text-white">{activeModalProject.title}</strong> is in final post-production.
-                        </p>
+                      {/* Video Info and External Link Bar */}
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl bg-surface-card border border-brand-blue/20">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-red-400">
+                              <YoutubeLogo weight="fill" className="w-3.5 h-3.5 text-red-500" />
+                              Official YouTube Tutorial
+                            </span>
+                            <span className="text-xs text-slate-500">•</span>
+                            <span className="text-xs text-slate-300 font-mono">
+                              {activeModalProject.duration}
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-300 font-light">
+                            Official step-by-step physical circuit build, pinouts, and code verification for <strong className="text-white">{activeModalProject.title}</strong>.
+                          </p>
+                        </div>
+
+                        <a
+                          href={`https://youtu.be/${activeModalProject.youtubeId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold shadow-lg shadow-red-600/20 transition-all shrink-0 hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                          <YoutubeLogo weight="fill" className="w-4 h-4" />
+                          <span>Watch on YouTube</span>
+                          <ArrowSquareOut weight="bold" className="w-3.5 h-3.5" />
+                        </a>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-surface-card/90 border border-brand-blue/30 text-xs text-brand-blue text-left space-y-1">
+                      {/* App Advantage Notice */}
+                      <div className="p-3.5 rounded-xl bg-surface-card/90 border border-brand-blue/30 text-xs text-brand-blue text-left space-y-1">
                         <span className="font-bold flex items-center gap-1.5 text-white">
                           <Lightning weight="fill" className="w-4 h-4 text-brand-orange" />
-                          AR-DUINO-M App Advantage:
+                          AR-DUINO-M App Companion:
                         </span>
                         <p className="text-slate-300 font-light text-[11px]">
-                          You don&apos;t need to wait for video playback! Open the AR-DUINO-M Android app and choose this project to experience full 360° interactive step-by-step 3D wiring immediately.
+                          Follow along with this video tutorial while using the AR-DUINO-M Android app to view animated 3D electrical flow, check pin assignments in Augmented Reality, and debug simulated breadboard connections.
                         </p>
                       </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="relative w-full aspect-video rounded-2xl bg-black border border-brand-blue/30 overflow-hidden flex flex-col items-center justify-center p-8 text-center shadow-2xl">
+                      {/* Background screenshot watermark */}
+                      <div className="absolute inset-0 opacity-20 pointer-events-none">
+                        <Image
+                          src={activeModalProject.thumbnail}
+                          alt="Video Preview"
+                          fill
+                          className="object-cover blur-sm"
+                        />
+                      </div>
+
+                      <div className="relative z-10 max-w-md space-y-4">
+                        <div className="w-16 h-16 rounded-2xl bg-red-600/20 border border-red-500/40 flex items-center justify-center mx-auto text-red-500 shadow-xl shadow-red-500/20">
+                          <YoutubeLogo weight="fill" className="w-10 h-10" />
+                        </div>
+
+                        <div className="space-y-1">
+                          <h4 className="font-heading font-black text-xl text-white">
+                            YouTube Video Tutorial Coming Soon
+                          </h4>
+                          <p className="text-xs text-slate-300 font-light leading-relaxed">
+                            Official narrated demonstration and oscilloscope testing for <strong className="text-white">{activeModalProject.title}</strong> is in final post-production.
+                          </p>
+                        </div>
+
+                        <div className="p-3 rounded-xl bg-surface-card/90 border border-brand-blue/30 text-xs text-brand-blue text-left space-y-1">
+                          <span className="font-bold flex items-center gap-1.5 text-white">
+                            <Lightning weight="fill" className="w-4 h-4 text-brand-orange" />
+                            AR-DUINO-M App Advantage:
+                          </span>
+                          <p className="text-slate-300 font-light text-[11px]">
+                            You don&apos;t need to wait for video playback! Open the AR-DUINO-M Android app and choose this project to experience full 360° interactive step-by-step 3D wiring immediately.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </TabsContent>
 
                 {/* TAB 2: Hardware Checklist with Interactive Checkboxes */}
