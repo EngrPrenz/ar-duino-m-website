@@ -151,31 +151,42 @@ export default function PresentationPage() {
     const handleFullscreenChange = () => {
       const fs = !!document.fullscreenElement;
       setIsFullscreen(fs);
-      if (!fs) {
-        setIsHudVisible(true);
-      }
     };
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
-  // Auto-hide HUD in Fullscreen on mouse inactivity
-  const handleMouseMove = React.useCallback((e: React.MouseEvent) => {
-    setIsHudVisible(true);
+  const isHoveringHudRef = React.useRef(false);
+
+  // Auto-hide HUD after 1.5 seconds of mouse inactivity
+  const startHudTimeout = React.useCallback(() => {
     if (hudTimeoutRef.current) {
       clearTimeout(hudTimeoutRef.current);
     }
-
-    // In fullscreen, hide after 3.2 seconds unless cursor is near bottom 100px
-    if (document.fullscreenElement) {
-      const windowHeight = window.innerHeight;
-      if (e.clientY < windowHeight - 110) {
-        hudTimeoutRef.current = setTimeout(() => {
-          setIsHudVisible(false);
-        }, 3200);
+    hudTimeoutRef.current = setTimeout(() => {
+      if (!isHoveringHudRef.current) {
+        setIsHudVisible(false);
       }
-    }
+    }, 1500);
   }, []);
+
+  const showHud = React.useCallback(() => {
+    setIsHudVisible(true);
+    startHudTimeout();
+  }, [startHudTimeout]);
+
+  // Initial countdown on page load so toolbar hides after 1.5s
+  React.useEffect(() => {
+    startHudTimeout();
+    return () => {
+      if (hudTimeoutRef.current) clearTimeout(hudTimeoutRef.current);
+    };
+  }, [startHudTimeout]);
+
+  // On any mouse movement: immediately show toolbar and start 1.5s hide timer
+  const handleMouseMove = React.useCallback(() => {
+    showHud();
+  }, [showHud]);
 
   // ==========================================
   // KEYBOARD NAVIGATION
@@ -186,6 +197,8 @@ export default function PresentationPage() {
       if (["input", "textarea"].includes((e.target as HTMLElement)?.tagName?.toLowerCase())) {
         return;
       }
+
+      showHud();
 
       switch (e.key) {
         case "ArrowRight":
@@ -232,13 +245,17 @@ export default function PresentationPage() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [nextSlide, prevSlide, togglePlayPause, toggleFullscreen, goToSlide]);
+  }, [nextSlide, prevSlide, togglePlayPause, toggleFullscreen, goToSlide, showHud]);
 
   return (
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative w-screen h-screen overflow-hidden bg-[#0A101D] text-white select-none flex flex-col justify-between font-sans"
+      onClick={showHud}
+      className={cn(
+        "relative w-screen h-screen overflow-hidden bg-[#0A101D] text-white select-none flex flex-col justify-between font-sans transition-all duration-300",
+        !isHudVisible && "cursor-none"
+      )}
       style={{
         backgroundImage: "radial-gradient(circle at 50% 50%, #162133 0%, #0A101D 100%)",
       }}
@@ -266,7 +283,7 @@ export default function PresentationPage() {
       {/* ==========================================
           SLIDES VIEWPORT (Main Stage)
           ========================================== */}
-      <main className="relative z-10 flex-1 w-full max-w-[1360px] mx-auto px-4 sm:px-8 pt-4 pb-24 flex items-center justify-center">
+      <main className="relative z-10 flex-1 w-full max-w-[97vw] 2xl:max-w-[1800px] mx-auto px-2 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3 flex items-center justify-center min-h-0">
         {/* SLIDE 1: LOGO & NAME + CLEAN WHITE TAGLINE */}
         <div
           className={cn(
@@ -275,14 +292,14 @@ export default function PresentationPage() {
           )}
         >
           {/* Glowing Animated Logo Frame */}
-          <div className="relative mb-6 sm:mb-8 flex items-center justify-center">
+          <div className="relative mb-5 sm:mb-7 flex items-center justify-center">
             <div
               className="absolute -inset-6 rounded-3xl opacity-75 blur-2xl animate-pulse transition-all duration-700"
               style={{
                 background: "linear-gradient(135deg, #35A2F4, #9B5FF5, #49F996)",
               }}
             />
-            <div className="relative w-44 h-44 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-3xl p-3 bg-surface-card/60 backdrop-blur-xl border-2 border-brand-blue/40 shadow-[0_0_50px_rgba(53,162,244,0.6)] flex items-center justify-center">
+            <div className="relative w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 lg:w-80 lg:h-80 rounded-3xl p-3 sm:p-4 bg-surface-card/60 backdrop-blur-xl border-2 border-brand-blue/40 shadow-[0_0_50px_rgba(53,162,244,0.6)] flex items-center justify-center">
               <Image
                 src="/Logo Main.png"
                 alt="AR-DUINO Logo"
@@ -293,25 +310,25 @@ export default function PresentationPage() {
             </div>
           </div>
 
-          <h1 className="font-heading font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-white mb-4 sm:mb-6 drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
+          <h1 className="font-heading font-black text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-white mb-3 sm:mb-5 drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
             AR-DUINO
           </h1>
 
-          <p className="max-w-4xl font-heading font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white leading-snug sm:leading-snug tracking-tight px-4 drop-shadow-md">
+          <p className="max-w-5xl font-heading font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white leading-snug tracking-tight px-4 drop-shadow-md">
             Augmented Reality Driven User Interface for Interactive Prototyping and Learning Microcontroller Electronics
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-blue/15 text-brand-blue border border-brand-blue/30 backdrop-blur-md">
-              <Circuitry weight="bold" className="w-4 h-4" />
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-3">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-brand-blue/15 text-brand-blue border border-brand-blue/30 backdrop-blur-md">
+              <Circuitry weight="bold" className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               Vuforia Engine AR
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-green/15 text-brand-green border border-brand-green/30 backdrop-blur-md">
-              <Sparkle weight="bold" className="w-4 h-4" />
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-brand-green/15 text-brand-green border border-brand-green/30 backdrop-blur-md">
+              <Sparkle weight="bold" className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               Zero Hardware Cost Simulation
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-orange/15 text-brand-orange border border-brand-orange/30 backdrop-blur-md">
-              <DeviceMobile weight="bold" className="w-4 h-4" />
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-brand-orange/15 text-brand-orange border border-brand-orange/30 backdrop-blur-md">
+              <DeviceMobile weight="bold" className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               Android Exclusive APK
             </span>
           </div>
@@ -324,44 +341,46 @@ export default function PresentationPage() {
             currentSlide === 1 ? "flex opacity-100 scale-100" : "hidden opacity-0 scale-95"
           )}
         >
-          <div className="mb-6 sm:mb-8 space-y-2">
-            <h2 className="font-heading font-black text-4xl sm:text-5xl md:text-6xl text-white tracking-tight drop-shadow-md">
+          <div className="mb-3 sm:mb-4 lg:mb-5 space-y-1 sm:space-y-1.5 flex-shrink-0">
+            <h2 className="font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-tight drop-shadow-md">
               Choose Your Project
             </h2>
-            <p className="text-base sm:text-xl md:text-2xl font-semibold text-[#9B5FF5] max-w-3xl mx-auto px-4">
+            <p className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-[#9B5FF5] max-w-4xl mx-auto px-2">
               Graduated difficulty curriculum with step-by-step guides and hardware checklists
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 w-full max-w-5xl items-center justify-center px-2">
-            {/* Device Mockup 1 */}
-            <div className="group relative rounded-2xl sm:rounded-3xl p-2.5 sm:p-3.5 bg-[#162133]/90 border-2 border-brand-blue/40 shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-md hover:border-brand-blue/80 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-7 xl:gap-8 w-full max-w-[96vw] 2xl:max-w-[1760px] items-center justify-center px-1 sm:px-2">
+            {/* Device Mockup 1: Project Selection & Hardware BOM */}
+            <div className="group relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 md:p-3.5 bg-[#162133]/90 border-2 border-brand-blue/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] backdrop-blur-md hover:border-brand-blue/80 transition-all duration-300">
+              <div className="relative aspect-[20/9] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40 shadow-inner">
                 <Image
-                  src="/screenshots/project-details.png"
+                  src="/screenshots/v2/project-details.png"
                   alt="Hardware Checklist Mockup"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-contain"
+                  priority
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-[#162133]/90 text-brand-blue border border-brand-blue/30 backdrop-blur-sm shadow-md">
-                  1. Hardware Checklist
+                <div className="absolute top-2.5 left-2.5 sm:top-3.5 sm:left-3.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-mono font-bold bg-[#162133]/90 text-brand-blue border border-brand-blue/30 backdrop-blur-sm shadow-md">
+                  1. Project Selection & Hardware BOM
                 </div>
               </div>
             </div>
 
-            {/* Device Mockup 2 */}
-            <div className="group relative rounded-2xl sm:rounded-3xl p-2.5 sm:p-3.5 bg-[#162133]/90 border-2 border-brand-green/40 shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-md hover:border-brand-green/80 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40">
+            {/* Device Mockup 2: Step Instructions */}
+            <div className="group relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 md:p-3.5 bg-[#162133]/90 border-2 border-brand-green/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] backdrop-blur-md hover:border-brand-green/80 transition-all duration-300">
+              <div className="relative aspect-[20/9] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40 shadow-inner">
                 <Image
-                  src="/screenshots/step-instructions.png"
+                  src="/screenshots/v2/step-instructions.png"
                   alt="Guided Wiring Steps Mockup"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-contain"
+                  priority
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-[#162133]/90 text-brand-green border border-brand-green/30 backdrop-blur-sm shadow-md">
-                  2. Guided Wiring Steps
+                <div className="absolute top-2.5 left-2.5 sm:top-3.5 sm:left-3.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-mono font-bold bg-[#162133]/90 text-brand-green border border-brand-green/30 backdrop-blur-sm shadow-md">
+                  2. Guided Assembly Steps
                 </div>
               </div>
             </div>
@@ -375,43 +394,45 @@ export default function PresentationPage() {
             currentSlide === 2 ? "flex opacity-100 scale-100" : "hidden opacity-0 scale-95"
           )}
         >
-          <div className="mb-6 sm:mb-8 space-y-2">
+          <div className="mb-3 sm:mb-4 lg:mb-5 space-y-1 sm:space-y-1.5 flex-shrink-0">
             <h2 className="font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-tight drop-shadow-md">
               Interactive Prototyping & Hardware Learning Gamified
             </h2>
-            <p className="text-base sm:text-xl md:text-2xl font-semibold text-brand-green max-w-3xl mx-auto px-4">
+            <p className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-brand-green max-w-4xl mx-auto px-2">
               Digital twin electronics with real-time logic simulation and zero burnout risk
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 w-full max-w-5xl items-center justify-center px-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-7 xl:gap-8 w-full max-w-[96vw] 2xl:max-w-[1760px] items-center justify-center px-1 sm:px-2">
             {/* Device Mockup 1 */}
-            <div className="group relative rounded-2xl sm:rounded-3xl p-2.5 sm:p-3.5 bg-[#162133]/90 border-2 border-brand-green/40 shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-md hover:border-brand-green/80 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40">
+            <div className="group relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 md:p-3.5 bg-[#162133]/90 border-2 border-brand-green/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] backdrop-blur-md hover:border-brand-green/80 transition-all duration-300">
+              <div className="relative aspect-[20/9] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40 shadow-inner">
                 <Image
-                  src="/screenshots/ar-workspace-led.png"
+                  src="/screenshots/v2/ar-workspace-led.png"
                   alt="3D Digital Twin Breadboard Mockup"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-contain"
+                  priority
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-[#162133]/90 text-brand-green border border-brand-green/30 backdrop-blur-sm shadow-md">
+                <div className="absolute top-2.5 left-2.5 sm:top-3.5 sm:left-3.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-mono font-bold bg-[#162133]/90 text-brand-green border border-brand-green/30 backdrop-blur-sm shadow-md">
                   ● 1. 3D Digital Twin Breadboard
                 </div>
               </div>
             </div>
 
             {/* Device Mockup 2 */}
-            <div className="group relative rounded-2xl sm:rounded-3xl p-2.5 sm:p-3.5 bg-[#162133]/90 border-2 border-brand-orange/40 shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-md hover:border-brand-orange/80 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40">
+            <div className="group relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 md:p-3.5 bg-[#162133]/90 border-2 border-brand-orange/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] backdrop-blur-md hover:border-brand-orange/80 transition-all duration-300">
+              <div className="relative aspect-[20/9] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40 shadow-inner">
                 <Image
-                  src="/screenshots/ar-workspace-rccar.png"
+                  src="/screenshots/v2/ar-workspace-rccar.png"
                   alt="L298N Robotics Mode Mockup"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-contain"
+                  priority
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-[#162133]/90 text-brand-orange border border-brand-orange/30 backdrop-blur-sm shadow-md">
+                <div className="absolute top-2.5 left-2.5 sm:top-3.5 sm:left-3.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-mono font-bold bg-[#162133]/90 text-brand-orange border border-brand-orange/30 backdrop-blur-sm shadow-md">
                   2. L298N Robotics Mode
                 </div>
               </div>
@@ -426,44 +447,46 @@ export default function PresentationPage() {
             currentSlide === 3 ? "flex opacity-100 scale-100" : "hidden opacity-0 scale-95"
           )}
         >
-          <div className="mb-6 sm:mb-8 space-y-2">
+          <div className="mb-3 sm:mb-4 lg:mb-5 space-y-1 sm:space-y-1.5 flex-shrink-0">
             <h2 className="font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-tight drop-shadow-md">
               AR Recognition: Point Camera Then Spawn
             </h2>
-            <p className="text-base sm:text-xl md:text-2xl font-semibold text-brand-orange max-w-3xl mx-auto px-4">
+            <p className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-brand-orange max-w-4xl mx-auto px-2">
               Scan target card to instantly materialize interactive 3D microcontrollers and live pinouts
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 w-full max-w-5xl items-center justify-center px-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-7 xl:gap-8 w-full max-w-[96vw] 2xl:max-w-[1760px] items-center justify-center px-1 sm:px-2">
             {/* Device Mockup 1 */}
-            <div className="group relative rounded-2xl sm:rounded-3xl p-2.5 sm:p-3.5 bg-[#162133]/90 border-2 border-brand-orange/40 shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-md hover:border-brand-orange/80 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40">
+            <div className="group relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 md:p-3.5 bg-[#162133]/90 border-2 border-brand-orange/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] backdrop-blur-md hover:border-brand-orange/80 transition-all duration-300">
+              <div className="relative aspect-[20/9] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40 shadow-inner">
                 <Image
-                  src="/screenshots/ar-library-qr.png"
+                  src="/screenshots/v2/ar-library-qr.png"
                   alt="Target Card Input Mockup"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-contain"
+                  priority
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-[#162133]/90 text-brand-orange border border-brand-orange/30 backdrop-blur-sm shadow-md">
-                  1. Target Card Input
+                <div className="absolute top-2.5 left-2.5 sm:top-3.5 sm:left-3.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-mono font-bold bg-[#162133]/90 text-brand-orange border border-brand-orange/30 backdrop-blur-sm shadow-md">
+                  1. Mobile Target Library Portal
                 </div>
               </div>
             </div>
 
             {/* Device Mockup 2 */}
-            <div className="group relative rounded-2xl sm:rounded-3xl p-2.5 sm:p-3.5 bg-[#162133]/90 border-2 border-brand-green/40 shadow-[0_15px_35px_rgba(0,0,0,0.6)] backdrop-blur-md hover:border-brand-green/80 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40">
+            <div className="group relative rounded-2xl sm:rounded-3xl p-2 sm:p-3 md:p-3.5 bg-[#162133]/90 border-2 border-brand-green/40 shadow-[0_20px_45px_rgba(0,0,0,0.7)] backdrop-blur-md hover:border-brand-green/80 transition-all duration-300">
+              <div className="relative aspect-[20/9] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black/40 shadow-inner">
                 <Image
-                  src="/screenshots/ar-camera-view.png"
+                  src="/screenshots/v2/ar-camera-view.png"
                   alt="Live 3D Model Spawned in AR Mockup"
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-contain"
+                  priority
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-[#162133]/90 text-brand-green border border-brand-green/30 backdrop-blur-sm shadow-md">
-                  ● 2. 3D Model Spawned
+                <div className="absolute top-2.5 left-2.5 sm:top-3.5 sm:left-3.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-mono font-bold bg-[#162133]/90 text-brand-green border border-brand-green/30 backdrop-blur-sm shadow-md">
+                  ● 2. Live AR Digital Twin Detection
                 </div>
               </div>
             </div>
@@ -477,26 +500,26 @@ export default function PresentationPage() {
             currentSlide === 4 ? "flex opacity-100 scale-100" : "hidden opacity-0 scale-95"
           )}
         >
-          <div className="mb-6 sm:mb-8 space-y-2">
+          <div className="mb-3 sm:mb-4 lg:mb-5 space-y-1 sm:space-y-1.5 flex-shrink-0">
             <h2 className="font-heading font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-tight drop-shadow-md">
               Scan QR Codes for Website & Feedback
             </h2>
-            <p className="text-base sm:text-xl md:text-2xl font-semibold text-brand-blue max-w-3xl mx-auto px-4">
+            <p className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-brand-blue max-w-4xl mx-auto px-2">
               Explore the live online platform • Submit congress evaluation directly from your phone
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 w-full max-w-4xl px-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-8 xl:gap-12 w-full max-w-[94vw] 2xl:max-w-6xl px-2">
             {/* CARD 1: WEBSITE QR */}
-            <div className="relative group rounded-3xl p-6 sm:p-8 bg-[#162133]/90 border-2 border-brand-blue/40 shadow-[0_20px_50px_rgba(53,162,244,0.18)] backdrop-blur-xl hover:border-brand-blue transition-all duration-300 flex flex-col items-center">
+            <div className="relative group rounded-3xl p-5 sm:p-7 lg:p-8 bg-[#162133]/90 border-2 border-brand-blue/40 shadow-[0_20px_50px_rgba(53,162,244,0.22)] backdrop-blur-xl hover:border-brand-blue transition-all duration-300 flex flex-col items-center">
               {/* Badge */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-blue/15 text-brand-blue border border-brand-blue/30 mb-5">
-                <Globe weight="bold" className="w-4 h-4" />
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-mono font-bold bg-brand-blue/15 text-brand-blue border border-brand-blue/30 mb-4 sm:mb-5">
+                <Globe weight="bold" className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                 <span>OFFICIAL WEBSITE</span>
               </div>
 
               {/* QR Image Box */}
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 p-3 rounded-2xl bg-white shadow-xl flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative w-52 h-52 sm:w-60 sm:h-60 md:w-64 md:h-64 lg:w-72 lg:h-72 p-3 sm:p-4 rounded-2xl sm:rounded-3xl bg-white shadow-2xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-105 transition-transform duration-300">
                 <div className="relative w-full h-full">
                   <Image
                     src={PRESENTATION_CONFIG.qrAssets.websiteQr}
@@ -505,12 +528,12 @@ export default function PresentationPage() {
                     className="object-contain"
                   />
                   {/* Center Emblem Logo */}
-                  <div className="absolute inset-0 m-auto w-10 h-10 rounded-lg bg-surface-card border-2 border-brand-blue p-1 flex items-center justify-center shadow-lg">
+                  <div className="absolute inset-0 m-auto w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-surface-card border-2 border-brand-blue p-1 flex items-center justify-center shadow-lg">
                     <Image
                       src="/Logo Main.png"
                       alt="AR-DUINO"
-                      width={28}
-                      height={28}
+                      width={32}
+                      height={32}
                       className="object-contain"
                     />
                   </div>
@@ -518,26 +541,26 @@ export default function PresentationPage() {
               </div>
 
               {/* URL Display */}
-              <div className="px-3.5 py-1.5 rounded-xl bg-black/40 border border-brand-blue/30 text-xs font-mono text-brand-blue/90 font-bold mb-4 max-w-[260px] truncate">
+              <div className="px-4 py-1.5 sm:py-2 rounded-xl bg-black/40 border border-brand-blue/30 text-xs sm:text-sm font-mono text-brand-blue/90 font-bold mb-3 sm:mb-4 max-w-[320px] truncate">
                 {PRESENTATION_CONFIG.urls.websiteDisplay}
               </div>
 
               {/* Quick Guidance */}
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed max-w-sm">
                 Scan with phone camera to open Target Library, view 4 tutorials, and download APK.
               </p>
             </div>
 
             {/* CARD 2: GOOGLE FORMS EVALUATION QR */}
-            <div className="relative group rounded-3xl p-6 sm:p-8 bg-[#162133]/90 border-2 border-brand-purple/40 shadow-[0_20px_50px_rgba(155,95,245,0.18)] backdrop-blur-xl hover:border-brand-purple transition-all duration-300 flex flex-col items-center">
+            <div className="relative group rounded-3xl p-5 sm:p-7 lg:p-8 bg-[#162133]/90 border-2 border-brand-purple/40 shadow-[0_20px_50px_rgba(155,95,245,0.22)] backdrop-blur-xl hover:border-brand-purple transition-all duration-300 flex flex-col items-center">
               {/* Badge */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-purple/15 text-brand-purple border border-brand-purple/30 mb-5">
-                <ClipboardText weight="bold" className="w-4 h-4" />
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs sm:text-sm font-mono font-bold bg-brand-purple/15 text-brand-purple border border-brand-purple/30 mb-4 sm:mb-5">
+                <ClipboardText weight="bold" className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
                 <span>CONGRESS EVALUATION (GFORMS)</span>
               </div>
 
               {/* QR Image Box */}
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 p-3 rounded-2xl bg-white shadow-xl flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative w-52 h-52 sm:w-60 sm:h-60 md:w-64 md:h-64 lg:w-72 lg:h-72 p-3 sm:p-4 rounded-2xl sm:rounded-3xl bg-white shadow-2xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-105 transition-transform duration-300">
                 <div className="relative w-full h-full">
                   <Image
                     src={PRESENTATION_CONFIG.qrAssets.googleFormsQr}
@@ -549,34 +572,34 @@ export default function PresentationPage() {
               </div>
 
               {/* URL Display */}
-              <div className="px-3.5 py-1.5 rounded-xl bg-black/40 border border-brand-purple/30 text-xs font-mono text-brand-purple/90 font-bold mb-4 max-w-[260px] truncate">
+              <div className="px-4 py-1.5 sm:py-2 rounded-xl bg-black/40 border border-brand-purple/30 text-xs sm:text-sm font-mono text-brand-purple/90 font-bold mb-3 sm:mb-4 max-w-[320px] truncate">
                 {PRESENTATION_CONFIG.urls.googleFormsDisplay}
               </div>
 
               {/* Quick Guidance */}
-              <p className="text-xs text-slate-300 font-medium leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 font-medium leading-relaxed max-w-sm">
                 Scan to share reviewer feedback, rate the AR-DUINO exhibit, and submit responses.
               </p>
             </div>
           </div>
 
           {/* Stepper Guide */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-semibold">
-            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-card border border-white/10 text-slate-200">
+          <div className="mt-5 sm:mt-7 flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm font-semibold">
+            <span className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-card border border-white/10 text-slate-200">
               <span className="w-5 h-5 rounded-full bg-brand-blue/20 text-brand-blue flex items-center justify-center text-xs font-bold">
                 1
               </span>
               Open Phone Camera
             </span>
             <span className="text-slate-500">→</span>
-            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-card border border-white/10 text-slate-200">
+            <span className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-card border border-white/10 text-slate-200">
               <span className="w-5 h-5 rounded-full bg-brand-green/20 text-brand-green flex items-center justify-center text-xs font-bold">
                 2
               </span>
               Point at Target QR Code
             </span>
             <span className="text-slate-500">→</span>
-            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-card border border-white/10 text-slate-200">
+            <span className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-card border border-white/10 text-slate-200">
               <span className="w-5 h-5 rounded-full bg-brand-purple/20 text-brand-purple flex items-center justify-center text-xs font-bold">
                 3
               </span>
@@ -590,9 +613,20 @@ export default function PresentationPage() {
           ALL-IN-ONE BOTTOM NAVBAR & HUD
           ========================================== */}
       <footer
+        onMouseEnter={() => {
+          isHoveringHudRef.current = true;
+          setIsHudVisible(true);
+          if (hudTimeoutRef.current) {
+            clearTimeout(hudTimeoutRef.current);
+          }
+        }}
+        onMouseLeave={() => {
+          isHoveringHudRef.current = false;
+          startHudTimeout();
+        }}
         className={cn(
           "fixed bottom-0 left-0 right-0 z-50 bg-[#0E1724]/95 border-t border-white/15 backdrop-blur-2xl shadow-[0_-15px_30px_rgba(0,0,0,0.7)] flex flex-col transition-all duration-300 ease-out",
-          isFullscreen && !isHudVisible ? "translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
+          !isHudVisible ? "translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100 pointer-events-auto"
         )}
       >
         {/* Dynamic Linear Progress Bar */}

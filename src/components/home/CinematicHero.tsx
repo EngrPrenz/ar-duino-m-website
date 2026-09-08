@@ -20,56 +20,49 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-// 7 Real App Screenshots from public/screenshots (all native landscape)
+// 6 Real High-Resolution Native App Screenshots from public/screenshots/v2
 const APP_SCREENS = [
   {
     id: "ar-camera",
     title: "Live AR Vuforia Scanner",
     category: "Vuforia AR",
-    src: "/screenshots/ar-camera-view.png",
-    caption: "Real-time 3D Arduino detection on optical image targets"
+    src: "/screenshots/v2/ar-camera-view.png",
+    caption: "Real-time 3D Arduino Uno R3 spawned over optical target card"
+  },
+  {
+    id: "project-details",
+    title: "Hardware BOM & Module Specs",
+    category: "Hardware Checklist",
+    src: "/screenshots/v2/project-details.png",
+    caption: "Comprehensive component lists, difficulty grading, and module introduction"
+  },
+  {
+    id: "step-instructions",
+    title: "Guided Wiring Instructions",
+    category: "Tutorial Guide",
+    src: "/screenshots/v2/step-instructions.png",
+    caption: "Step-by-step breadboard component placement and polarity guidelines"
   },
   {
     id: "ar-workspace-led",
     title: "3D Breadboard Workspace",
-    category: "Simulation",
-    src: "/screenshots/ar-workspace-led.png",
-    caption: "360° interactive circuit twin with live LED logic"
+    category: "Simulation Lab",
+    src: "/screenshots/v2/ar-workspace-led.png",
+    caption: "Interactive virtual circuit assembly with real-time checklist validation"
   },
   {
     id: "ar-workspace-rccar",
     title: "Robotics Chassis Mode",
-    category: "Advanced",
-    src: "/screenshots/ar-workspace-rccar.png",
-    caption: "L298N dual H-bridge motor driver & DC gearmotor wiring"
-  },
-  {
-    id: "project-list",
-    title: "Curated Project Catalog",
-    category: "Curriculum",
-    src: "/screenshots/project-list.png",
-    caption: "Graduated electronics projects from Beginner to Advanced"
-  },
-  {
-    id: "project-details",
-    title: "Hardware BOM & Specs",
-    category: "Checklist",
-    src: "/screenshots/project-details.png",
-    caption: "Pre-assembly component requirements and pinout guides"
-  },
-  {
-    id: "step-instructions",
-    title: "Guided Circuit Steps",
-    category: "Tutorial",
-    src: "/screenshots/step-instructions.png",
-    caption: "Numbered wiring guidance with rail polarity checks"
+    category: "Robotics Lab",
+    src: "/screenshots/v2/ar-workspace-rccar.png",
+    caption: "Differential drive RC Car with L298N dual motor driver and Arduino Uno"
   },
   {
     id: "ar-library-qr",
     title: "Target Library QR Portal",
     category: "Optical Targets",
-    src: "/screenshots/ar-library-qr.png",
-    caption: "Quick mobile scan to access all 29 target markers"
+    src: "/screenshots/v2/ar-library-qr.png",
+    caption: "Instant mobile QR portal to view and scan all 29 component targets"
   }
 ];
 
@@ -231,7 +224,7 @@ export function CinematicHero() {
             {/* The Landscape iPhone Bezel */}
             <div
               ref={mockupRef}
-              className="relative w-full aspect-[16/9.5] sm:aspect-[16/9] rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#0C1017] p-2.5 sm:p-3 shadow-[inset_0_0_0_2px_#3f4d66,inset_0_0_0_6px_#000,0_35px_70px_-15px_rgba(0,0,0,0.95)] transition-transform duration-100 ease-out will-change-transform flex flex-col justify-between"
+              className="relative w-full aspect-[20/9.5] sm:aspect-[20/9] rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#0C1017] p-2.5 sm:p-3 shadow-[inset_0_0_0_2px_#3f4d66,inset_0_0_0_6px_#000,0_35px_70px_-15px_rgba(0,0,0,0.95)] transition-transform duration-100 ease-out will-change-transform flex flex-col justify-between"
               style={{ transformStyle: "preserve-3d" }}
             >
               {/* Landscape Hardware Buttons on Top Edge */}
@@ -285,7 +278,7 @@ export function CinematicHero() {
                     alt={activeScreen.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 780px"
-                    className="object-cover object-center transition-all duration-500"
+                    className="object-contain object-center transition-all duration-500"
                     priority
                   />
 

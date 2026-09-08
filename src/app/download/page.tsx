@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   DownloadSimple,
@@ -238,6 +239,72 @@ export default function DownloadPage() {
             <p className="text-xs text-slate-300 font-light leading-relaxed">
               Play Protect may display a prompt stating <em>&quot;Unrecognized app&quot;</em> because the APK is distributed outside Google Play. Tap <strong>More details</strong> then <strong>Install anyway</strong> to proceed safely.
             </p>
+          </div>
+        </div>
+
+        {/* In-App Experience Preview */}
+        <div className="space-y-6">
+          <div className="text-center sm:text-left space-y-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/30 text-brand-blue text-xs font-mono font-bold uppercase tracking-wider">
+              <Sparkle weight="fill" className="w-3.5 h-3.5" />
+              <span>Inside the Android APK</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold font-heading text-white">
+              What You&apos;ll Experience in AR-DUINO-M
+            </h2>
+            <p className="text-slate-400 text-xs sm:text-sm font-light">
+              Authentic high-resolution captures from the native Android application:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Preview 1: AR Camera View */}
+            <div className="group rounded-2xl sm:rounded-3xl p-3 bg-surface-card/80 border border-brand-blue/30 shadow-xl overflow-hidden hover:border-brand-blue/60 transition-all">
+              <div className="relative aspect-[20/9.5] w-full rounded-xl overflow-hidden bg-black flex items-center justify-center">
+                <Image
+                  src="/screenshots/v2/ar-camera-view.png"
+                  alt="Live Vuforia AR Target Scanner"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain"
+                />
+                <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-[#162133]/95 text-brand-blue border border-brand-blue/30 backdrop-blur-md">
+                  Vuforia AR Scanner
+                </div>
+              </div>
+              <div className="p-3 space-y-1 text-left">
+                <h3 className="text-xs sm:text-sm font-bold text-white font-heading">
+                  Live AR Component Tracking
+                </h3>
+                <p className="text-[11px] text-slate-300 font-light leading-relaxed">
+                  Hover your camera over printed or screen markers to materialize 3D digital twins with pinouts and specs.
+                </p>
+              </div>
+            </div>
+
+            {/* Preview 2: 3D Breadboard Workspace */}
+            <div className="group rounded-2xl sm:rounded-3xl p-3 bg-surface-card/80 border border-brand-green/30 shadow-xl overflow-hidden hover:border-brand-green/60 transition-all">
+              <div className="relative aspect-[20/9.5] w-full rounded-xl overflow-hidden bg-black flex items-center justify-center">
+                <Image
+                  src="/screenshots/v2/ar-workspace-led.png"
+                  alt="3D Tabletop Breadboard Workspace"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-contain"
+                />
+                <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-[#162133]/95 text-brand-green border border-brand-green/30 backdrop-blur-md">
+                  3D Simulation Lab
+                </div>
+              </div>
+              <div className="p-3 space-y-1 text-left">
+                <h3 className="text-xs sm:text-sm font-bold text-white font-heading">
+                  Virtual Circuit Assembly
+                </h3>
+                <p className="text-[11px] text-slate-300 font-light leading-relaxed">
+                  Interactive snap-to-grid breadboard wiring, code simulation, and real-time validation checklists.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -96,14 +96,13 @@ The Landing Page is composed of six stacked content sections:
 * **Interactive Smartphone Mockup Deck (`HeroMockupCardDeck.tsx`):**
   A landscape-oriented interactive smartphone simulation displaying actual in-app screenshots. Users can preview the mobile application before downloading.
   * **Controls:** Auto-rotates every 6 seconds; includes Category quick-switch tabs, Left/Right navigation chevrons, direct slide pagination dots, and pause-on-hover capability.
-  * **Catalog of 7 Featured App Screens:**
+  * **Catalog of 6 Featured App Screens:**
     1. *Live AR Vuforia Scanner (`ar-camera`):* Demonstrates real-time detection of target cards with virtual 3D Arduino boards and live pinout cards overlaid in physical space.
     2. *3D AR Circuit Workspace (`ar-workspace-led`):* Demonstrates the 3D digital twin breadboard environment with assembly checklists and 360-degree rotation controls.
     3. *RC Car Motor Wiring Mode (`ar-workspace-rccar`):* Demonstrates complex multi-component robotics wiring including the L298N motor driver module, dual batteries, and chassis assembly.
-    4. *Curated Project Catalog (`project-list`):* Demonstrates the project selection screen where users choose from beginner to advanced projects.
-    5. *Project Requirements & Specs (`project-details`):* Pre-assembly checklist listing required microcontrollers, diodes, resistors, and breadboards.
-    6. *Step-by-Step Circuit Guide (`step-instructions`):* Clear textual guidance explaining breadboard row connectivity, center isolation gaps, and power rail connections.
-    7. *Target Image Library QR (`ar-library-qr`):* Demonstrates how the app provides QR codes pointing back to this website's printable/scannable target catalog.
+    4. *Project Requirements & Specs (`project-details`):* Pre-assembly checklist listing required microcontrollers, diodes, resistors, and breadboards.
+    5. *Step-by-Step Circuit Guide (`step-instructions`):* Clear textual guidance explaining breadboard row connectivity, center isolation gaps, and power rail connections.
+    6. *Target Image Library QR (`ar-library-qr`):* Demonstrates how the app provides QR codes pointing back to this website's printable/scannable target catalog.
 
 #### Section 2: How It Works (`HowItWorks.tsx`)
 A structured 5-step operational breakdown explaining the user journey from zero knowledge to circuit execution:
@@ -459,7 +458,7 @@ The website interfaces with several external resources and static assets:
    * 29 individual image target files located in `/targets/` (e.g., `/targets/arduino-uno-r3.jpg`, `/targets/l298n-motor-driver.jpg`).
 
 3. **In-App Mobile Screenshots:**
-   * 7 high-resolution landscape application captures in `/screenshots/` powering the Hero mockup deck and Presentation slides.
+   * 6 high-resolution landscape application captures in `/screenshots/v2/` powering the Hero mockup deck and Presentation slides.
 
 4. **Third-Party Video Streaming:**
    * Embedded YouTube playback via privacy-enhanced domain (`https://www.youtube-nocookie.com/embed/{id}`).

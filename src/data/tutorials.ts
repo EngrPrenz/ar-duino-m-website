@@ -35,7 +35,7 @@ export const TUTORIALS_DATA: ProjectTutorial[] = [
     difficulty: "Easy",
     duration: "4m 15s",
     videoDurationSeconds: 255,
-    thumbnail: "/screenshots/ar-workspace-led.png",
+    thumbnail: "/screenshots/v2/ar-workspace-led.png",
     summary: "The foundational 'Hello World' of microcontroller electronics. Learn how digital output pins toggle electrical states and control current.",
     conceptualGoal: "Digital output pin configuration (pinMode OUTPUT), binary HIGH/LOW logic states, voltage switching (0V vs 5V), and timing loops using delay().",
     hardware: [
@@ -97,7 +97,7 @@ void loop() {
     difficulty: "Medium",
     duration: "6m 30s",
     videoDurationSeconds: 390,
-    thumbnail: "/screenshots/step-instructions.png",
+    thumbnail: "/screenshots/v2/step-instructions.png",
     summary: "Acquire continuous analog signals and translate human dial input into dynamic Pulse Width Modulation (PWM) LED brightness.",
     conceptualGoal: "Analog-to-digital conversion (ADC), 10-bit resolution (0-1023), map() mathematical range scaling, and 8-bit PWM duty cycles (0-255).",
     hardware: [
@@ -169,7 +169,7 @@ void loop() {
     difficulty: "Medium",
     duration: "8m 45s",
     videoDurationSeconds: 525,
-    thumbnail: "/screenshots/project-details.png",
+    thumbnail: "/screenshots/v2/project-details.png",
     summary: "Master array programming and sequential digital actuation to construct a knight-rider fluid light chaser display.",
     conceptualGoal: "C++ array data structures, for-loop iteration, sequential pin manipulation, and mathematical indexing for timing patterns.",
     hardware: [
@@ -244,7 +244,7 @@ void loop() {
     difficulty: "Hard",
     duration: "14m 20s",
     videoDurationSeconds: 860,
-    thumbnail: "/screenshots/ar-workspace-rccar.png",
+    thumbnail: "/screenshots/v2/ar-workspace-rccar.png",
     summary: "Architect a dual-motor mobile robotics platform using the L298N Dual H-Bridge driver with independent directional steering and PWM velocity control.",
     conceptualGoal: "High-current inductive load switching, H-Bridge polarity inversion, separate logic vs motor power decoupling, and skid-steer differential drive kinematics.",
     hardware: [

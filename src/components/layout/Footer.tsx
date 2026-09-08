@@ -92,12 +92,6 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/presentation" className="hover:text-brand-blue transition-colors flex items-center gap-1.5 text-brand-green/90 font-medium">
-                  <span>Kiosk Presentation Mode</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-brand-green/15 text-brand-green font-bold">Live</span>
-                </Link>
-              </li>
-              <li>
                 <Link href="/#how-it-works" className="hover:text-brand-blue transition-colors">
                   5-Step How It Works
                 </Link>

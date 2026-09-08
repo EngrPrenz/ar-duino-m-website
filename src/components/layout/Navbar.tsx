@@ -52,7 +52,6 @@ export function Navbar() {
     { name: "Home", href: "/" },
     { name: "Vuforia Library", href: "/components" },
     { name: "Video Tutorials", href: "/tutorials" },
-    { name: "Presentation", href: "/presentation" },
     { name: "How It Works", href: "/#how-it-works" },
     { name: "Contact", href: "/#contact" },
   ];
