@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
-import { 
-  DownloadSimple, 
-  ListChecks, 
-  VideoCamera, 
-  Scan, 
+import {
+  DownloadSimple,
+  ListChecks,
+  VideoCamera,
+  Scan,
   PlayCircle,
   ArrowRight,
-  Sparkle
+  Sparkle,
+  Circuitry
 } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
@@ -45,19 +46,19 @@ const STEPS = [
   },
   {
     step: "04",
-    title: "Build the Circuit",
-    subtitle: "Scan Target Markers",
-    description: "Point your phone camera at printable target cards or monitor screens to spawn accurate 3D digital twins of Arduino boards, motors, and sensors.",
-    icon: Scan,
+    title: "Assemble the Circuit",
+    subtitle: "Interactive 3D Workspace",
+    description: "Enter the 3D tabletop workspace to spawn digital twins of Arduino boards, LEDs, resistors, and breadboards. Drag and snap components into place with real-time alignment and wire validation.",
+    icon: Circuitry,
     accent: "text-brand-orange",
     border: "border-brand-orange/30",
     bg: "bg-brand-orange/10",
   },
   {
     step: "05",
-    title: "Run Simulation",
-    subtitle: "Real-Time Logic",
-    description: "Flash Arduino C++ logic inside the simulator and watch LEDs blink, stepper motors rotate, and sensors respond to virtual stimuli in real-time.",
+    title: "Simulate & Test Circuit",
+    subtitle: "Code Upload & Testing",
+    description: "Review verified sketches in the built-in Mock IDE, simulate code upload with a single tap, and watch your circuit spring to life with synchronized blinking LEDs, analog potentiometer dimming, and motor responses.",
     icon: PlayCircle,
     accent: "text-brand-blue",
     border: "border-brand-blue/30",
@@ -83,7 +84,7 @@ export function HowItWorks() {
             How AR-DUINO-M Works in 5 Steps
           </h2>
           <p className="text-slate-300 text-sm sm:text-base font-light leading-relaxed">
-            Transition seamlessly from conceptual electronics theory to physical breadboard prototyping with intuitive augmented reality guidance.
+            Master breadboard wiring and microcontroller basics in a risk-free 3D virtual workspace before building on physical hardware.
           </p>
         </div>
 

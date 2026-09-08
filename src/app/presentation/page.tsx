@@ -298,7 +298,7 @@ export default function PresentationPage() {
           </h1>
 
           <p className="max-w-4xl font-heading font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white leading-snug sm:leading-snug tracking-tight px-4 drop-shadow-md">
-            Augmented Reality Driven User Interface for Navigation and Operation of Microcontrollers
+            Augmented Reality Driven User Interface for Interactive Prototyping and Learning Microcontroller Electronics
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

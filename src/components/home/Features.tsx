@@ -32,27 +32,27 @@ const FEATURES = [
     glow: "group-hover:shadow-brand-purple/15",
   },
   {
-    title: "29 Vuforia Target Markers",
+    title: "29 Optical AR Reference Targets",
     tag: "Optical Tracking",
-    description: "Dedicated optical target library covering microcontrollers, ultrasonic sensors, motor drivers, LCD displays, and breadboard passives for instant AR recognition.",
+    description: "Scan printable markers or screen cards with your phone camera to inspect interactive 3D digital twins, detailed pinout diagrams, specifications, and use cases for 29 essential electronics components.",
     icon: QrCode,
     color: "text-brand-green",
     border: "group-hover:border-brand-green/50",
     glow: "group-hover:shadow-brand-green/15",
   },
   {
-    title: "Real-Time Circuit Testing",
-    tag: "Live Logic",
-    description: "Witness real-time state changes inside the AR viewport: LEDs light up with true duty cycles, stepper motors step in discrete strides, and RC car wheels respond to PWM commands.",
+    title: "Real-Time Circuit Simulation",
+    tag: "Interactive 3D",
+    description: "Witness real-time state changes inside the 3D viewport: LEDs illuminate with true blink intervals, potentiometer wipers dynamically adjust brightness, and the RC car robotics chassis responds to directional drive controls.",
     icon: Lightning,
     color: "text-brand-orange",
     border: "group-hover:border-brand-orange/50",
     glow: "group-hover:shadow-brand-orange/15",
   },
   {
-    title: "Zero Hardware Damage Risk",
+    title: "Risk-Free Circuit Prototyping",
     tag: "Safe Learning",
-    description: "Accidentally reverse polarity or short-circuit power rails without destroying expensive physical microcontrollers or burning delicate diodes.",
+    description: "Troubleshoot wiring mistakes and incorrect pin connections without the risk of damaging expensive microcontroller boards or blowing delicate components. Real-time checklist validation flags errors instantly.",
     icon: ShieldCheck,
     color: "text-brand-blue",
     border: "group-hover:border-brand-blue/50",
@@ -85,7 +85,7 @@ export function Features() {
             Engineered for Modern STEM Education
           </h2>
           <p className="text-slate-300 text-sm sm:text-base font-light leading-relaxed">
-            Eliminate equipment shortages and hardware budget constraints with computer-vision augmented reality circuits.
+            Eliminate equipment shortages and hardware budget constraints with interactive 3D tabletop simulations and optical AR component libraries.
           </p>
         </div>
 

@@ -60,7 +60,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-xs text-slate-400 leading-relaxed font-normal">
-              Augmented Reality Driven User Interface for Navigation and Operation of Microcontrollers.
+              Augmented Reality Driven User Interface for Interactive Prototyping and Learning Microcontroller Electronics.
             </p>
             <div className="flex items-center gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-surface-card text-brand-green border border-brand-green/30">
@@ -206,7 +206,7 @@ export function Footer() {
             © {new Date().getFullYear()} AR-DUINO-M Educational Platform. All rights reserved.
           </p>
           <p className="text-center sm:text-right">
-            Designed for safe, zero-cost physical computing and robotics education.
+            Designed for safe, zero-cost virtual electronics and robotics education.
           </p>
         </div>
       </div>

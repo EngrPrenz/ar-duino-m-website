@@ -105,7 +105,7 @@ function ComponentsContent() {
           </h1>
 
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
-            Display any of these <strong className="text-white font-semibold">29 target markers</strong> on your computer monitor or print them on paper. Launch the <strong className="text-brand-blue font-semibold">AR-DUINO-M</strong> mobile app and point your phone camera at the screen to instantly project live 3D hardware.
+            Display any of these <strong className="text-white font-semibold">29 target markers</strong> on your computer monitor or print them on paper. Launch the <strong className="text-brand-blue font-semibold">AR-DUINO-M</strong> mobile app and point your phone camera at the screen to inspect 3D component digital twins, detailed pinouts, and hardware specifications.
           </p>
 
           {/* Quick Scanning Tips Pill */}

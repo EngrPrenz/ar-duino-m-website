@@ -28,15 +28,15 @@ export function ComponentsPreview() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
           <div className="max-w-xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/30 text-brand-green text-xs font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-green/10 border border-brand-green/30 text-brand-green text-xs font-semibold uppercase tracking-wider mb-4">
               <QrCode weight="bold" className="w-3.5 h-3.5" />
-              <span>Optical AR Library</span>
+              <span>29 Optical AR Reference Cards • Hands-On 3D Circuit Simulations</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight text-white mb-3">
-              29 High-Resolution Vuforia Targets
+              29 Optical AR Component Reference Targets
             </h2>
             <p className="text-slate-300 text-sm sm:text-base font-light leading-relaxed">
-              Display these target markers on your desktop screen or print them on paper. Point your AR-DUINO-M phone app to immediately project accurate 3D interactive hardware.
+              Scan printable markers or screen cards with your phone camera to inspect interactive 3D digital twins, detailed pinout diagrams, specifications, and use cases for 29 essential electronics components.
             </p>
           </div>
 

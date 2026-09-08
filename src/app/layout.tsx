@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ar-duino-m.vercel.app"),
   title: "AR-DUINO-M | Augmented Reality Microcontroller Platform",
   description:
-    "Augmented Reality Driven User Interface for Navigation and Operation of Microcontrollers. Learn electronics, circuit wiring, and Arduino C++ with interactive 3D digital twins and Vuforia AR tracking.",
+    "Augmented Reality Driven User Interface for Interactive Prototyping and Learning Microcontroller Electronics. Learn electronics, circuit wiring, and Arduino code with interactive 3D digital twins and Vuforia AR tracking.",
   keywords: [
     "AR-DUINO-M",
     "Arduino",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AR-DUINO-M — Augmented Reality Microcontroller Platform",
     description:
-      "Interactive 3D digital twins for electronics and circuit prototyping without hardware costs or burnout risks.",
+      "Interactive 3D digital twins and AR reference cards for electronics prototyping without hardware damage risks.",
     url: "https://ar-duino-m.vercel.app",
     siteName: "AR-DUINO-M",
     images: [

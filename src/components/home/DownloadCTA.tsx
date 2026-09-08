@@ -57,7 +57,7 @@ export function DownloadCTA() {
               </h2>
 
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-light">
-                Get immediate access to the interactive 3D circuit simulation app. Point your camera at any computer screen or paper printout to start building microcontroller circuits without burning components.
+                Get immediate access to the interactive 3D electronics simulator. Point your camera at target markers to explore 29 optical AR components, or enter the 3D tabletop workspace to wire and test circuits risk-free.
               </p>
 
               {/* Badges */}

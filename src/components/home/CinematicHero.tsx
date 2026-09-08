@@ -3,16 +3,16 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  DownloadSimple, 
-  Sparkle, 
-  CaretLeft, 
-  CaretRight, 
-  QrCode, 
-  ShieldCheck, 
-  Cpu, 
-  Circuitry, 
-  Cube, 
+import {
+  DownloadSimple,
+  Sparkle,
+  CaretLeft,
+  CaretRight,
+  QrCode,
+  ShieldCheck,
+  Cpu,
+  Circuitry,
+  Cube,
   Eye,
   Lightning,
   ArrowsClockwise
@@ -129,9 +129,9 @@ export function CinematicHero() {
       className="relative w-full pt-28 pb-20 sm:pt-36 sm:pb-28 overflow-hidden bg-[#0E1724] text-slate-100 isolate z-10"
     >
       {/* Background Holographic Grid Texture */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none ar-grid-bg opacity-60" 
-        aria-hidden="true" 
+      <div
+        className="absolute inset-0 z-0 pointer-events-none ar-grid-bg opacity-60"
+        aria-hidden="true"
       />
 
       {/* Cyber Ambient Radial Glows */}
@@ -140,11 +140,11 @@ export function CinematicHero() {
       <div className="absolute top-96 right-1/4 w-[450px] h-[350px] bg-brand-blue/10 rounded-full blur-[130px] pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-center text-center">
-        
+
         {/* Top Animated Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-blue/10 border border-brand-blue/30 text-brand-blue text-xs font-semibold uppercase tracking-wider mb-6 shadow-lg shadow-brand-blue/10">
           <Sparkle weight="fill" className="w-4 h-4 text-brand-blue animate-pulse" />
-          <span>Augmented Reality Physical Computing</span>
+          <span>Augmented Reality Electronics Simulator</span>
         </div>
 
         {/* User Requested: Just AR-DUINO-M with Electric Blue 'M' */}
@@ -154,7 +154,7 @@ export function CinematicHero() {
 
         {/* Expanded Official Acronym Definition */}
         <p className="text-slate-300 text-base sm:text-xl md:text-2xl mt-2 max-w-3xl font-light leading-relaxed">
-          Augmented Reality Driven User Interface for Navigation and Operation of Microcontrollers.
+          Augmented Reality Driven User Interface for Interactive Prototyping and Learning Microcontroller Electronics.
         </p>
 
         {/* CTA Buttons */}
@@ -194,7 +194,7 @@ export function CinematicHero() {
             CENTERED HOLOGRAPHIC STAGE: LANDSCAPE SMARTPHONE MOCKUP
         ---------------------------------------------------------------------- */}
         <div className="relative mt-14 sm:mt-18 w-full max-w-5xl flex flex-col items-center justify-center">
-          
+
           {/* Holographic Pedestal Back-Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[350px] bg-gradient-to-r from-brand-blue/20 via-brand-purple/20 to-brand-blue/20 rounded-full blur-[110px] pointer-events-none" />
 
@@ -222,7 +222,7 @@ export function CinematicHero() {
           </div>
 
           {/* Landscape Smartphone Bezel Outer Container */}
-          <div 
+          <div
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={handleMouseLeave}
@@ -250,10 +250,10 @@ export function CinematicHero() {
 
               {/* Inner Screen Display (True 16:9 Widescreen) */}
               <div className="relative w-full h-full bg-black rounded-[1.8rem] sm:rounded-[2.3rem] overflow-hidden shadow-inner flex flex-col justify-between select-none">
-                
+
                 {/* Horizontal & Vertical Laser Scanline Overlays */}
-                <div 
-                  className="absolute inset-0 z-30 pointer-events-none overflow-hidden" 
+                <div
+                  className="absolute inset-0 z-30 pointer-events-none overflow-hidden"
                   aria-hidden="true"
                 >
                   <div className="w-full h-1 bg-gradient-to-r from-transparent via-brand-blue to-transparent shadow-[0_0_15px_#35A2F4] animate-scanline" />

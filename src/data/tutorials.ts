@@ -36,7 +36,7 @@ export const TUTORIALS_DATA: ProjectTutorial[] = [
     duration: "4m 15s",
     videoDurationSeconds: 255,
     thumbnail: "/screenshots/ar-workspace-led.png",
-    summary: "The foundational 'Hello World' of physical computing. Learn how digital output pins toggle electrical states and control current.",
+    summary: "The foundational 'Hello World' of microcontroller electronics. Learn how digital output pins toggle electrical states and control current.",
     conceptualGoal: "Digital output pin configuration (pinMode OUTPUT), binary HIGH/LOW logic states, voltage switching (0V vs 5V), and timing loops using delay().",
     hardware: [
       { name: "Arduino Uno R3", count: 1, targetId: "arduino-uno-r3", description: "Main microcontroller development board" },
