@@ -1,96 +1,24 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   DownloadSimple,
   Sparkle,
-  CaretLeft,
-  CaretRight,
   QrCode,
   ShieldCheck,
-  Cpu,
   Circuitry,
   Cube,
-  Eye,
   Lightning,
-  ArrowsClockwise
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-
-// 6 Real High-Resolution Native App Screenshots from public/screenshots/v2
-const APP_SCREENS = [
-  {
-    id: "ar-camera",
-    title: "Live AR Vuforia Scanner",
-    category: "Vuforia AR",
-    src: "/screenshots/v2/ar-camera-view.png",
-    caption: "Real-time 3D Arduino Uno R3 spawned over optical target card"
-  },
-  {
-    id: "project-details",
-    title: "Hardware BOM & Module Specs",
-    category: "Hardware Checklist",
-    src: "/screenshots/v2/project-details.png",
-    caption: "Comprehensive component lists, difficulty grading, and module introduction"
-  },
-  {
-    id: "step-instructions",
-    title: "Guided Wiring Instructions",
-    category: "Tutorial Guide",
-    src: "/screenshots/v2/step-instructions.png",
-    caption: "Step-by-step breadboard component placement and polarity guidelines"
-  },
-  {
-    id: "ar-workspace-led",
-    title: "3D Breadboard Workspace",
-    category: "Simulation Lab",
-    src: "/screenshots/v2/ar-workspace-led.png",
-    caption: "Interactive virtual circuit assembly with real-time checklist validation"
-  },
-  {
-    id: "ar-workspace-rccar",
-    title: "Robotics Chassis Mode",
-    category: "Robotics Lab",
-    src: "/screenshots/v2/ar-workspace-rccar.png",
-    caption: "Differential drive RC Car with L298N dual motor driver and Arduino Uno"
-  },
-  {
-    id: "ar-library-qr",
-    title: "Target Library QR Portal",
-    category: "Optical Targets",
-    src: "/screenshots/v2/ar-library-qr.png",
-    caption: "Instant mobile QR portal to view and scan all 29 component targets"
-  }
-];
 
 export function CinematicHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
 
-  const [currentScreenIdx, setCurrentScreenIdx] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // Auto rotation of phone mockup screens every 5.5s
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setCurrentScreenIdx((prev) => (prev + 1) % APP_SCREENS.length);
-    }, 5500);
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
-  const nextScreen = useCallback(() => {
-    setCurrentScreenIdx((prev) => (prev + 1) % APP_SCREENS.length);
-  }, []);
-
-  const prevScreen = useCallback(() => {
-    setCurrentScreenIdx((prev) => (prev - 1 + APP_SCREENS.length) % APP_SCREENS.length);
-  }, []);
-
-  // Smooth 3D Mouse Tilt Effect on the Landscape Phone Mockup
+  // Smooth 3D Mouse Tilt Effect on the 3D Phone Mockup
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!mockupRef.current) return;
     const rect = mockupRef.current.getBoundingClientRect();
@@ -100,20 +28,17 @@ export function CinematicHero() {
     const rotX = -(y / (rect.height / 2)) * 8;
     const rotY = (x / (rect.width / 2)) * 8;
 
-    mockupRef.current.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    mockupRef.current.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setIsPaused(false);
     if (!mockupRef.current) return;
-    mockupRef.current.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg)";
-    mockupRef.current.style.transition = "transform 0.5s ease-out";
+    mockupRef.current.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+    mockupRef.current.style.transition = "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
     setTimeout(() => {
       if (mockupRef.current) mockupRef.current.style.transition = "";
-    }, 500);
+    }, 600);
   }, []);
-
-  const activeScreen = APP_SCREENS[currentScreenIdx];
 
   return (
     <section
@@ -140,7 +65,7 @@ export function CinematicHero() {
           <span>Augmented Reality Electronics Simulator</span>
         </div>
 
-        {/* User Requested: Just AR-DUINO-M with Electric Blue 'M' */}
+        {/* Official AR-DUINO-M Title with Electric Blue 'M' */}
         <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black font-heading tracking-tight text-white mb-4 leading-[1.05] filter drop-shadow-[0_10px_35px_rgba(0,0,0,0.8)]">
           AR-DUINO<span className="text-brand-blue drop-shadow-[0_0_35px_rgba(53,162,244,0.7)]">-M</span>
         </h1>
@@ -184,174 +109,68 @@ export function CinematicHero() {
         </div>
 
         {/* -------------------------------------------------------------------
-            CENTERED HOLOGRAPHIC STAGE: LANDSCAPE SMARTPHONE MOCKUP
+            CENTERED HOLOGRAPHIC STAGE: ULTRA-WIDE 3D SMARTPHONE MOCKUP
         ---------------------------------------------------------------------- */}
-        <div className="relative mt-14 sm:mt-18 w-full max-w-5xl flex flex-col items-center justify-center">
+        <div className="relative mt-12 sm:mt-16 w-full max-w-6xl flex flex-col items-center justify-center">
 
-          {/* Holographic Pedestal Back-Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[350px] bg-gradient-to-r from-brand-blue/20 via-brand-purple/20 to-brand-blue/20 rounded-full blur-[110px] pointer-events-none" />
+          {/* Holographic Radial Back-Glow Pedestal */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] sm:w-[950px] lg:w-[1150px] h-[320px] sm:h-[420px] bg-gradient-to-r from-brand-blue/25 via-brand-purple/20 to-brand-blue/25 rounded-full blur-[120px] pointer-events-none -z-10" />
 
-          {/* Floating Pill Badges around Landscape Mockup (Desktop / Tablet) */}
-          <div className="hidden lg:flex absolute -top-4 left-4 xl:-left-6 z-30 flex-col gap-3">
-            <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-surface-card/95 backdrop-blur-md border border-brand-green/30 text-xs font-semibold text-brand-green shadow-xl shadow-black/60">
+          {/* Floating Pill Badges around 3D Mockup (Desktop / Tablet) */}
+          <div className="hidden lg:flex absolute -top-8 xl:-top-10 left-0 xl:-left-6 z-30 flex-col gap-2.5">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-surface-card/95 backdrop-blur-md border border-brand-green/35 text-xs font-semibold text-brand-green shadow-xl shadow-black/70 transition-transform duration-300 hover:scale-105">
               <span className="w-2 h-2 rounded-full bg-brand-green animate-ping" />
               <span>Vuforia Target Detected</span>
             </div>
-            <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-surface-card/95 backdrop-blur-md border border-brand-blue/30 text-xs font-medium text-slate-200 shadow-xl shadow-black/60">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-surface-card/95 backdrop-blur-md border border-brand-blue/35 text-xs font-medium text-slate-200 shadow-xl shadow-black/70 transition-transform duration-300 hover:scale-105">
               <Circuitry weight="bold" className="w-4 h-4 text-brand-blue" />
               <span>3D Digital Twin Workspace</span>
             </div>
           </div>
 
-          <div className="hidden lg:flex absolute -top-4 right-4 xl:-right-6 z-30 flex-col gap-3 items-end">
-            <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-surface-card/95 backdrop-blur-md border border-brand-blue/30 text-xs font-medium text-slate-200 shadow-xl shadow-black/60">
+          <div className="hidden lg:flex absolute -top-8 xl:-top-10 right-0 xl:-right-6 z-30 flex-col gap-2.5 items-end">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-surface-card/95 backdrop-blur-md border border-brand-blue/35 text-xs font-medium text-slate-200 shadow-xl shadow-black/70 transition-transform duration-300 hover:scale-105">
               <QrCode weight="bold" className="w-4 h-4 text-brand-blue" />
               <span>29 Optical Targets Ready</span>
             </div>
-            <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-surface-card/95 backdrop-blur-md border border-brand-purple/30 text-xs font-semibold text-brand-purple shadow-xl shadow-black/60">
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-surface-card/95 backdrop-blur-md border border-brand-purple/35 text-xs font-semibold text-brand-purple shadow-xl shadow-black/70 transition-transform duration-300 hover:scale-105">
               <Sparkle weight="fill" className="w-4 h-4" />
               <span>60 FPS AR Rendering</span>
             </div>
           </div>
 
-          {/* Landscape Smartphone Bezel Outer Container */}
+          {/* Ultra-Wide 3D Mockup Interactive Stage */}
           <div
             onMouseMove={handleMouseMove}
-            onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={handleMouseLeave}
-            className="relative z-20 cursor-grab active:cursor-grabbing p-3 sm:p-4 rounded-[2.5rem] sm:rounded-[3.2rem] bg-gradient-to-b from-white/10 via-surface-card/60 to-surface-void/90 border border-brand-blue/35 shadow-2xl shadow-black/90 backdrop-blur-md w-full max-w-[800px]"
+            className="relative z-20 w-full flex items-center justify-center cursor-pointer select-none group px-2 sm:px-0"
           >
-            {/* The Landscape iPhone Bezel */}
             <div
               ref={mockupRef}
-              className="relative w-full aspect-[20/9.5] sm:aspect-[20/9] rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#0C1017] p-2.5 sm:p-3 shadow-[inset_0_0_0_2px_#3f4d66,inset_0_0_0_6px_#000,0_35px_70px_-15px_rgba(0,0,0,0.95)] transition-transform duration-100 ease-out will-change-transform flex flex-col justify-between"
+              className="relative w-full max-w-[1100px] animate-float will-change-transform filter drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)] drop-shadow-[0_0_45px_rgba(53,162,244,0.3)] transition-[filter] duration-500 group-hover:drop-shadow-[0_0_65px_rgba(53,162,244,0.5)]"
               style={{ transformStyle: "preserve-3d" }}
             >
-              {/* Landscape Hardware Buttons on Top Edge */}
-              <div className="absolute -top-[3px] left-[15%] w-[42px] h-[3px] bg-slate-700 rounded-t-md" />
-              <div className="absolute -top-[3px] left-[23%] w-[42px] h-[3px] bg-slate-700 rounded-t-md" />
-              <div className="absolute -top-[3px] right-[18%] w-[65px] h-[3px] bg-slate-700 rounded-t-md" />
-
-              {/* Landscape Hardware Button on Right Edge (Power) */}
-              <div className="absolute top-[40%] -right-[3px] w-[3px] h-[45px] bg-slate-700 rounded-r-md" />
-
-              {/* Left Edge Landscape Camera Island */}
-              <div className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-[16px] sm:w-[20px] h-[75px] sm:h-[90px] bg-black rounded-full z-40 flex flex-col items-center justify-between py-2 sm:py-2.5 shadow-md">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#151515] border border-white/20" />
-                <div className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse shadow-[0_0_8px_#49F996]" />
-              </div>
-
-              {/* Inner Screen Display (True 16:9 Widescreen) */}
-              <div className="relative w-full h-full bg-black rounded-[1.8rem] sm:rounded-[2.3rem] overflow-hidden shadow-inner flex flex-col justify-between select-none">
-
-                {/* Horizontal & Vertical Laser Scanline Overlays */}
-                <div
-                  className="absolute inset-0 z-30 pointer-events-none overflow-hidden"
-                  aria-hidden="true"
-                >
-                  <div className="w-full h-1 bg-gradient-to-r from-transparent via-brand-blue to-transparent shadow-[0_0_15px_#35A2F4] animate-scanline" />
-                </div>
-
-                {/* Top Landscape Status Bar */}
-                <div className="pt-2 sm:pt-3 pl-10 sm:pl-14 pr-4 sm:pr-6 flex items-center justify-between z-20 text-[10px] sm:text-xs text-slate-300 font-semibold border-b border-white/10 pb-1.5 bg-surface-void/90 backdrop-blur-sm">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-brand-green" />
-                    <span className="uppercase tracking-wider font-mono text-[10px] sm:text-xs text-white">
-                      {activeScreen.category}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-blue/20 text-brand-blue font-bold hidden sm:inline-block">
-                      Vuforia Engine AR Active
-                    </span>
-                    <span className="text-slate-400 font-mono text-[10px] sm:text-xs font-bold">
-                      {currentScreenIdx + 1} / {APP_SCREENS.length}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Main Landscape Screenshot Viewport */}
-                <div className="relative flex-1 w-full overflow-hidden bg-black flex items-center justify-center">
-                  <Image
-                    src={activeScreen.src}
-                    alt={activeScreen.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 780px"
-                    className="object-contain object-center transition-all duration-500"
-                    priority
-                  />
-
-                  {/* Screenshot Caption Overlay (Glassmorphic HUD) */}
-                  <div className="absolute bottom-2.5 left-10 sm:left-14 right-2.5 sm:right-4 p-2.5 sm:p-3 rounded-xl bg-surface-void/95 backdrop-blur-md border border-brand-blue/30 text-left z-20 shadow-xl flex items-center justify-between gap-4">
-                    <div className="space-y-0.5 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs sm:text-sm font-bold text-white font-heading truncate">
-                          {activeScreen.title}
-                        </span>
-                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-brand-blue/20 text-brand-blue font-bold flex-shrink-0">
-                          AR 60fps
-                        </span>
-                      </div>
-                      <p className="text-[10px] sm:text-xs text-slate-300 line-clamp-1 font-light">
-                        {activeScreen.caption}
-                      </p>
-                    </div>
-
-                    {/* Quick Stepper Controls in HUD */}
-                    <div className="flex items-center gap-1.5 flex-shrink-0">
-                      <button
-                        type="button"
-                        onClick={prevScreen}
-                        className="p-1.5 rounded-lg bg-surface-card hover:bg-brand-blue/20 text-slate-300 hover:text-white transition-colors"
-                        aria-label="Previous App Screen"
-                      >
-                        <CaretLeft weight="bold" className="w-4 h-4" />
-                      </button>
-
-                      {/* Pagination Dots */}
-                      <div className="hidden sm:flex items-center gap-1 px-1">
-                        {APP_SCREENS.map((screen, idx) => (
-                          <button
-                            key={screen.id}
-                            type="button"
-                            onClick={() => setCurrentScreenIdx(idx)}
-                            className={cn(
-                              "h-1.5 rounded-full transition-all duration-300",
-                              idx === currentScreenIdx
-                                ? "w-4 bg-brand-blue shadow-[0_0_8px_#35A2F4]"
-                                : "w-1.5 bg-slate-600 hover:bg-slate-400"
-                            )}
-                            aria-label={`Jump to screen ${idx + 1}`}
-                          />
-                        ))}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={nextScreen}
-                        className="p-1.5 rounded-lg bg-surface-card hover:bg-brand-blue/20 text-slate-300 hover:text-white transition-colors"
-                        aria-label="Next App Screen"
-                      >
-                        <CaretRight weight="bold" className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
+              <Image
+                src="/hero-mockup.png"
+                alt="AR-DUINO-M Interactive 3D Phone Mockup"
+                width={1865}
+                height={830}
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 95vw, 1100px"
+                className="w-full h-auto object-contain pointer-events-none select-none transition-transform duration-300"
+              />
             </div>
           </div>
 
           {/* Stage Bottom Metadata Pill */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400">
-            <span className="flex items-center gap-1.5 font-medium">
-              <ArrowsClockwise weight="bold" className="w-3.5 h-3.5 text-brand-blue animate-spin" />
-              Auto-rotating in-app landscape captures • Hover to pause
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400">
+            <span className="flex items-center gap-1.5 font-medium text-slate-300">
+              <Sparkle weight="fill" className="w-3.5 h-3.5 text-brand-blue" />
+              Native Android AR Experience
             </span>
             <span className="hidden sm:inline-block text-slate-600">•</span>
-            <span className="text-slate-300">
-              Native 16:9 widescreen Android application
+            <span className="text-slate-400">
+              Interactive Project Selector & Real-Time Hardware Simulation
             </span>
           </div>
 
